@@ -1,0 +1,13 @@
+venv
+*/notebooks
+*/data
+*/dataset
+
+*.mp4
+*.avi
+*.png
+*.jpeg
+*.jpg
+
+**/.ipynb_checkpoints
+.pytest_cache
