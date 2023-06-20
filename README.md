@@ -2,8 +2,16 @@
 
 ## How to install
 
-
 -----
+
+## Model
+
+Currently, the model being used is `EfficientNetB0` (https://keras.io/api/applications/), which
+was implemented to undergo *fine-tuning* using the custom dataset. The choice of this model was
+driven by its high accuracy and relatively low number of parameters. More recent series of the same
+model result in a decrease in computational performance.
+
+The training sessions were conducted using [Google Colab](https://research.google.com/colaboratory/).
 
 ## Dataset
 
@@ -87,3 +95,11 @@ Useful dataset links:
 - WCS: https://lila.science/datasets/wcscameratraps
 
 - PennFudan: https://www.cis.upenn.edu/~jshi/ped_html/
+
+## License
+
+MIT
+
+## Contact Us
+
+Please open an issue or contact pietro.foini1@gmail.com with any questions.
