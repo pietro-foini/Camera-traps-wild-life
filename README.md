@@ -5,18 +5,21 @@
 ### Local virtual environment
 
 We suggest to use [PyCharm Community](https://www.jetbrains.com/pycharm/download/#section=windows) for following 
-steps 3-6.
+steps 2-7.
 
-1. Clone the repository;
-2. Install Python: Make sure you have Python installed on your system. You can download it from the official Python 
+1. Install Python 3.9: Make sure you have Python installed on your system. You can download it from the official Python 
 website (https://www.python.org/) and follow the installation instructions for your operating system;
+2. Clone the repository;
 3. Create a virtual environment;
 4. Activate the virtual environment;
-5. Install project dependencies: 
+5. Mark `src` folder as root directory;
+6. Install project dependencies: 
    1. `pip install -r requirements.txt`
-6. Run the commands for further project dependencies: 
+7. Run the commands for further project dependencies: 
    1. `poetry lock --no-update`
    2. `poetry install`
+8. Run main project script:
+   1. `python src/main.py`
 
 ### Using Docker
 
