@@ -2,6 +2,34 @@
 
 ## How to install
 
+### Local virtual environment
+
+We suggest to use [PyCharm Community](https://www.jetbrains.com/pycharm/download/#section=windows) for following 
+steps 3-6.
+
+1. Clone the repository;
+2. Install Python: Make sure you have Python installed on your system. You can download it from the official Python 
+website (https://www.python.org/) and follow the installation instructions for your operating system;
+3. Create a virtual environment;
+4. Activate the virtual environment;
+5. Install project dependencies: 
+   1. `pip install -r requirements.txt`
+6. Run the commands for further project dependencies: 
+   1. `poetry lock --no-update`
+   2. `poetry install`
+
+### Using Docker
+
+1. Install Docker: Visit the official Docker website (https://www.docker.com/) and follow the installation instructions 
+for your operating system; 
+2. Clone the repository;
+3. Build the Docker image: navigate to the project's root directory and run the following command to build the Docker image:
+   1. `docker build -t project_name .`
+4. Run the Docker container: Once the image is built, start a container with the following command:
+   1. `docker run -it project_name`
+
+This will launch the project within the Docker container.
+
 -----
 
 ## Model
@@ -15,7 +43,7 @@ The training sessions were conducted using [Google Colab](https://research.googl
 
 ## Dataset
 
-The dataset used for training is available at the Google Drive link:
+The dataset used for training is available at the Google Drive link (~ 2.5 GB).
 
 The current dataset has been obtained by combining multiple sources of data available online in order to assemble a
 dataset of images captured by camera traps in both daytime and nighttime settings.
@@ -100,6 +128,6 @@ Useful dataset links:
 
 MIT
 
-## Contact Us
+## Contacts
 
 Please open an issue or contact pietro.foini1@gmail.com with any questions.
