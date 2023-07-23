@@ -10,7 +10,7 @@ import cv2
 
 from motion_detection.geometry_utils import compose_polygon, get_bbox_without_intersection, expand_bbox
 from motion_detection.tracking_objects import tracking
-from models.model import efficientnet_b0, efficientnet_b5
+from model.model import efficientnet_b0
 
 cmap = plt.get_cmap("Set1")
 
