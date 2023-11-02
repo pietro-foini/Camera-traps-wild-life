@@ -20,8 +20,8 @@ class MenuGUI(tk.Tk):
         # Default settings.
         self.videoFile = tk.StringVar(value=None)
         self.backgroundFile = tk.StringVar(value=None)
-        self.modelFolder = tk.StringVar(value="./model/checkpoints/efficientnetb0-20230723-v0")
-        self.scoreThreshold = tk.DoubleVar(value=80)
+        self.modelFolder = tk.StringVar(value="./model/checkpoints/efficientnetb0-20231102-v0")
+        self.scoreThreshold = tk.DoubleVar(value=90)
         self.trackingActivated = tk.BooleanVar(value=True)
 
         self.create_widgets()
