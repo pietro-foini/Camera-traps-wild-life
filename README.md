@@ -9,10 +9,12 @@ by a fine-tuned machine learning model (image-classification).
 
 Example of results applied to camera traps located on my family’s property 👀 (not used for training but only for inference purposes):
 
-<div style="display: flex; justify-content: center; align-items: center;">
-  <img src="assets/badger.gif" alt="GIF 1" style="width: 30%; margin-right: 10px;">
-  <img src="assets/human.gif" alt="GIF 1" style="width: 30%; margin-right: 10px;">
-  <img src="assets/human2.gif" alt="GIF 2" style="width: 30%;">
+<div align="center">
+
+| Badger                                                        | Human                                                        | Human                                                         |
+|---------------------------------------------------------------|--------------------------------------------------------------|---------------------------------------------------------------|
+| <img src="assets/badger.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/human.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/human2.gif" alt="GIF 2" style="width: 200;"> |
+
 </div>
 
 Using grad-cam, we can have some model explainability: we can see how the model correctly classified the 
