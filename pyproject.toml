@@ -1,9 +1,10 @@
 [tool.poetry]
-name = "ml-piane-di-sopra"
+name = "camera-traps-wild-life"
 version = "0.1.0"
 description = ""
-authors = ["PFoini<pietro.foini1@gmail.com>"]
+authors = ["PFoini <pietro.foini1@gmail.com>"]
 readme = "README.md"
+packages = [{ include = "camera_traps" }]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.11"

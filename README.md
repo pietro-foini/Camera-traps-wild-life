@@ -1,4 +1,26 @@
-# ML-Piane-di-Sopra
+# Camera-traps-wild-life
+
+Hello there! 😀
+
+This project was born from the idea of applying such algorithms to camera traps located on my family’s property in a 
+remote area of Italy, where wildlife is frequently observed. The goal was to develop a simple application for fixed 
+camera trap systems, where a basic motion detection algorithm could automatically identify subjects to be analyzed 
+by a fine-tuned machine learning model (image-classification).
+
+Example of results applied to camera traps located on my family’s property 👀 (not used for training but only for inference purposes):
+
+<div style="display: flex; justify-content: center; align-items: center;">
+  <img src="assets/badger.gif" alt="GIF 1" style="width: 30%; margin-right: 10px;">
+  <img src="assets/human.gif" alt="GIF 1" style="width: 30%; margin-right: 10px;">
+  <img src="assets/human2.gif" alt="GIF 2" style="width: 30%;">
+</div>
+
+Using grad-cam, we can have some model explainability: we can see how the model correctly classified the 
+fox and the region of the image where the model focused to reach this conclusion is highlighted:
+
+<img src="assets/grad_cam.png" alt="Clubs" width="500">
+
+N.B. This is a work in progress, built with limited resources. Community support is always welcome! 💪
 
 ## How to install
 
@@ -12,14 +34,14 @@ website (https://www.python.org/) and follow the installation instructions for y
 2. Clone the repository;
 3. Create a virtual environment;
 4. Activate the virtual environment;
-5. Mark `src` folder as root directory;
+5. Mark `camera_traps` folder as root directory;
 6. Install project dependencies: 
    1. `pip install -r requirements.txt`
 7. Run the commands for further project dependencies: 
    1. `poetry lock --no-update`
    2. `poetry install`
 8. Run main project script:
-   1. `python src/main.py`
+   1. `python camera_traps/main.py`
 
 Now you're all set! 🎉 Happy coding! 😄✨
 
@@ -45,6 +67,10 @@ driven by its high accuracy and relatively low number of parameters. More recent
 model result in a decrease in computational performance.
 
 The training sessions were conducted using an NVIDIA GPU GeForce 940MX.
+
+### Weights
+
+Some of the best weights obtained after *fine-tuning* are available at the Google Drive [link]().
 
 ## Dataset
 
