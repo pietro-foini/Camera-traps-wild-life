@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Configuration and source paths for ml-invoice
+# Configuration and source paths for current repository
 CONFIG_FILE="mypy.ini"
 
 # Run mypy and save the output to the "output" variable
