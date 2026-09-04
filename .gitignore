@@ -401,4 +401,9 @@ mypy_recap.txt
 # Video
 *.mp4
 
+# Models
+*.pt
+*.keras
+*.h5
+
 # End of https://www.toptal.com/developers/gitignore/api/python,pycharm,flask,visualstudiocode
