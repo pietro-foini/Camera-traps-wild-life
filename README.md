@@ -5,122 +5,122 @@ Hello there! 😀
 This project was born from the idea of applying such algorithms to camera traps located on my family’s property in a 
 remote area of Italy, where wildlife is frequently observed. The goal was to develop a simple application for fixed 
 camera trap systems, where a basic motion detection algorithm could automatically identify subjects to be analyzed 
-by a fine-tuned machine learning model (image-classification).
+by a fine-tuned machine learning model for image classification.
 
-Example of results applied to camera traps located on my family’s property 👀 (not used for training but only for inference purposes):
+Example of results applied to camera traps located on my family’s property (used only for inference purposes):
 
 <div align="center">
 
-| Badger                                                        | Human                                                        | Human                                                         |
+| Squirrel                                                      | Bear                                                         | Human                                                         |
 |---------------------------------------------------------------|--------------------------------------------------------------|---------------------------------------------------------------|
 | <img src="assets/badger.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/human.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/human2.gif" alt="GIF 2" style="width: 200;"> |
 
 </div>
 
-Using grad-cam, we can have some model explainability: we can see how the model correctly classified the 
-fox and the region of the image where the model focused to reach this conclusion is highlighted:
+Using grad-cam, we can have some model explainability: we can see how the model focused to reach its conclusion:
 
-<img src="assets/grad_cam.png" alt="Clubs" width="500">
+<img src="assets/grad_cam.png" alt="Grad-CAM Visualization" width="500">
 
-N.B. This is a work in progress, built with limited resources. Community support is always welcome! 💪
 
-## How to install
+## Installation
 
-### Local virtual environment
+Make sure to create a [virtual env](https://docs.python.org/3/library/venv.html). For which Python version to install please refer to the version allowed 
+inside the [`pyproject.toml`](./pyproject.toml).
 
-We suggest to use [PyCharm Community](https://www.jetbrains.com/pycharm/download/#section=windows) for following 
-steps 2-8.
+Now activate it, cd into the project repo and run the following command:
 
-1. Install Python 3.9: Make sure you have Python installed on your system. You can download it from the official Python 
-website (https://www.python.org/) and follow the installation instructions for your operating system;
-2. Clone the repository;
-3. Create a virtual environment;
-4. Activate the virtual environment;
-5. Mark `camera_traps` folder as root directory;
-6. Install project dependencies: 
-   1. `pip install -r requirements.txt`
-7. Run the commands for further project dependencies: 
-   1. `poetry lock --no-update`
-   2. `poetry install`
-8. Run main project script:
-   1. `python camera_traps/main.py`
+```bash
+pip install -r requirements.txt
+```
 
-Now you're all set! 🎉 Happy coding! 😄✨
+Now run:
 
-### Using Docker
+```bash
+poetry install
+```
 
-1. Install Docker: Visit the official Docker website (https://www.docker.com/) and follow the installation instructions 
-for your operating system; 
-2. Clone the repository;
-3. Build the Docker image: navigate to the project's root directory and run the following command to build the Docker image:
-   1. `docker build -t project_name .`
-4. Run the Docker container: Once the image is built, start a container with the following command:
-   1. `docker run -it project_name`
+N.B. If you want to generate or update the [`poetry.lock`](./poetry.lock) file please run the following command:
 
-🚀 This will launch the project within the Docker container! 🐳
+```bash
+poetry lock
+```
+
+### Git Hooks and Pre-commit: Elevate Your Coding Experience! 🚀
+
+Git hooks are scripts that automatically run before or after specific Git actions, such as committing code or pushing changes. 
+They act as your code quality guardians, ensuring consistency and preventing messy commits.
+
+#### Installing Hooks with Pre-commit
+
+To install hooks using pre-commit, follow these steps:
+
+1. 📥 Make sure you have installed the repo using poetry. Also check that pre-commit is installed with:
+    
+    > pre-commit --version
+
+2. 📂 Navigate to your project's root directory using the command line.
+
+3. ✍️ check a file named `.pre-commit-config.yaml` in the project's root directory. This file will contain the configuration for your pre-commit hooks.
+
+4. 💾 If everything checks run `pre-commit install` in your terminal. This command will install the hooks and set them up to run automatically before each commit.
+
+Now you're all set! 🎉 Your hooks will work their magic, keeping your codebase clean and your commits error-free.
+
+## Usage
 
 -----
 
 ## Model
 
-Currently, the model being used is `EfficientNetB0` (https://keras.io/api/applications/), which
-was implemented to undergo *fine-tuning* using the custom dataset. The choice of this model was
-driven by its high accuracy and relatively low number of parameters. More recent series of the same
-model result in a decrease in computational performance.
+Currently, the models being used are `EfficientNetV2S` and `ConvNeXtBase`, which are implemented to undergo *fine-tuning* 
+using the custom dataset. The choice of these models was driven by its high accuracy and relatively low number of parameters. 
 
-The training sessions were conducted using an NVIDIA GPU GeForce 940MX.
-
-### Weights
-
-Some of the best weights obtained after *fine-tuning* are available at the Google Drive [link]().
+The training sessions were conducted using an NVIDIA GeForce RTX 5060 Laptop GPU.
 
 ## Dataset
 
-The dataset used for training is available at the Google Drive [link](https://drive.google.com/file/d/1DebJb2638-DqQDnvEwk7CoMHNx1Ipf03/view?usp=drive_link) (~ 2.5 GB).
+The current dataset was assembled by combining multiple online data sources to gather camera trap images captured in both 
+daytime and nighttime settings. Subsequently, all images were manually reviewed to filter out noisy, misleading, or 
+poorly identifiable samples, ensuring higher dataset quality. The data was collected over several years; therefore, we 
+cannot guarantee that the provided links remain active or publicly accessible.
 
-The current dataset has been obtained by combining multiple sources of data available online in order to assemble a
-dataset of images captured by camera traps in both daytime and nighttime settings.
-The currently available image classes are as follows:
+Images smaller than $100 \times 100$ pixels are filtered out to prevent low-quality samples from degrading model performance. 
+After filtering, the final dataset consists of approximately 74,227 images distributed across day and night captures:
 
-| label             | setting     | count |
-|-------------------|-------------|-------|
-| None_of_the_above | day         | 3000  |
-| None_of_the_above | night       | 400   |
-| badger            | day         | 955   |
-| badger            | night       | 1474  |
-| badger            | unspecified | 18    |
-| bear              | day         | 985   |
-| bear              | night       | 420   |
-| bear              | unspecified | 779   |
-| bird              | unspecified | 2777  |
-| boar              | day         | 1287  |
-| boar              | night       | 675   |
-| boar              | unspecified | 775   |
-| cat               | day         | 1045  |
-| cat               | night       | 935   |
-| cat               | unspecified | 4759  |
-| chicken           | unspecified | 680   |
-| cow               | day         | 1351  |
-| cow               | night       | 103   |
-| cow               | unspecified | 1138  |
-| deer              | day         | 3805  |
-| deer              | night       | 2286  |
-| deer              | unspecified | 561   |
-| dog               | day         | 1360  |
-| dog               | night       | 124   |
-| dog               | unspecified | 3291  |
-| fox               | day         | 1408  |
-| fox               | night       | 1320  |
-| fox               | unspecified | 8     |
-| hare              | day         | 20    |
-| hare              | night       | 1262  |
-| hare              | unspecified | 5110  |
-| horse             | unspecified | 62    |
-| human             | unspecified | 2980  |
-| squirrel          | unspecified | 2775  |
-| vehicle           | unspecified | 2829  |
-| weasel            | day         | 1907  |
-| weasel            | night       | 1119  |
+| label             | setting | count |
+|-------------------|---------|-------|
+| None_of_the_above | day     | 3798  |
+| None_of_the_above | night   | 637   |
+| badger            | day     | 870   |
+| badger            | night   | 1353  |
+| bear              | day     | 3308  |
+| bear              | night   | 1311  |
+| bird              | day     | 1853  |
+| bird              | night   | 464   |
+| boar              | day     | 3460  |
+| boar              | night   | 2395  |
+| cat               | day     | 2970  |
+| cat               | night   | 4653  |
+| cow               | day     | 4162  |
+| cow               | night   | 590   |
+| deer              | day     | 5180  |
+| deer              | night   | 3545  |
+| dog               | day     | 7285  |
+| dog               | night   | 957   |
+| fox               | day     | 1200  |
+| fox               | night   | 2121  |
+| hare              | day     | 1722  |
+| hare              | night   | 2724  |
+| human             | day     | 4671  |
+| human             | night   | 161   |
+| squirrel          | day     | 2570  |
+| squirrel          | night   | 127   |
+| vehicle           | day     | 2592  |
+| vehicle           | night   | 47    |
+| weasel            | day     | 2731  |
+| weasel            | night   | 1634  |
+| wolf              | day     | 1768  |
+| wolf              | night   | 1368  |
 
 The dataset folder structure is then organized as follows:
 
@@ -137,25 +137,28 @@ The filename of each image is defined as follows:
 
     {referenceNameDataset}_{nameLabel}_{timeCondition}_{progressiveIndex}.jpg
 
-N.B. The underscores are only used as separators, otherwise *CamelCase* notation has been used.
+List of sources:
 
-The `timeCondition` field can be: 'day', 'night', 'unspecified'.
-
-Useful dataset links:
-
-- NTLNP (wildlife image dataset): https://paperswithcode.com/dataset/ntlnp-wildlife-image-dataset
-
-- CCT20 (subset): https://lila.science/datasets/caltech-camera-traps
-
+- NTLNP: https://paperswithcode.com/dataset/ntlnp-wildlife-image-dataset
+- CCT20: https://lila.science/datasets/caltech-camera-traps
 - Sheffield: https://figshare.shef.ac.uk/articles/dataset/Badger_datasets_for_image_recognition/8182370/1
-
 - ENA24: https://lila.science/datasets/ena24detection
-
 - LilaMissouri: https://lila.science/datasets/missouricameratraps
-
 - WCS: https://lila.science/datasets/wcscameratraps
-
 - PennFudan: https://www.cis.upenn.edu/~jshi/ped_html/
+- yybbdog: https://www.lirmm.fr/YT-BB-Dog_Sibetan/
+- nz: https://lila.science/datasets/nz-trailcams
+- idaho: https://lila.science/datasets/idaho-camera-traps/
+- felidae: https://lila.science/datasets/felidae-conservation-fund
+- island: https://lila.science/datasets/channel-islands-camera-traps/
+- seattleish: https://lila.science/datasets/seattleish-camera-traps/
+- nkhotakota: https://lila.science/datasets/nkhotakota-camera-traps/
+- roboflow: https://roboflow.com/
+- oregon: https://lila.science/datasets/oregon-critters/
+- maasai: https://lila.science/datasets/biome-health-project-maasai-mara
+- UKCEH: https://catalogue.ceh.ac.uk/documents/bf82cec2-5f8a-407c-bf74-f8689ca35e83
+- MOF: https://github.com/umr-ds/Mammal-Bird-Camera-Trap-Recognition/blob/main/data/data_download.sh
+- BNP: https://github.com/umr-ds/Mammal-Bird-Camera-Trap-Recognition/blob/main/data/data_download.sh
 
 ## License
 
@@ -163,4 +166,7 @@ MIT
 
 ## Contacts
 
-Please open an issue or contact pietro.foini1@gmail.com with any questions.
+If you would like to request access to the pre-trained model weights, the curated dataset, or if you have any questions 
+regarding the project, feel free to get in touch.
+
+Email: pietro.foini1@gmail.com
