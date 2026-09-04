@@ -406,4 +406,9 @@ mypy_recap.txt
 *.keras
 *.h5
 
+# TensorBoard logs
+logs/
+runs/
+*.tfevents.*
+
 # End of https://www.toptal.com/developers/gitignore/api/python,pycharm,flask,visualstudiocode
