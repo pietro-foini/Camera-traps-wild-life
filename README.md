@@ -17,9 +17,9 @@ Example of results applied to camera traps located on my family’s property (us
 
 </div>
 
-Using grad-cam, we can have some model explainability: we can see how the model focused to reach its conclusion:
+Using Grad-CAM, we achieve model explainability to observe where the model focuses to reach its conclusions:
 
-<img src="assets/grad_cam.png" alt="Grad-CAM Visualization" width="500">
+<img src="assets/gradcam.jpg" alt="Grad-CAM Visualization" width="232">
 
 
 ## Installation
@@ -39,32 +39,19 @@ Now run:
 poetry install
 ```
 
-N.B. If you want to generate or update the [`poetry.lock`](./poetry.lock) file please run the following command:
+### (Optional) Developer setup
+
+If you plan to contribute to the codebase, enable the pre-commit:
+
+```bash
+pre-commit install
+```
+
+To generate or update the [`poetry.lock`](./poetry.lock) file please run the following command:
 
 ```bash
 poetry lock
 ```
-
-### Git Hooks and Pre-commit: Elevate Your Coding Experience! 🚀
-
-Git hooks are scripts that automatically run before or after specific Git actions, such as committing code or pushing changes. 
-They act as your code quality guardians, ensuring consistency and preventing messy commits.
-
-#### Installing Hooks with Pre-commit
-
-To install hooks using pre-commit, follow these steps:
-
-1. 📥 Make sure you have installed the repo using poetry. Also check that pre-commit is installed with:
-    
-    > pre-commit --version
-
-2. 📂 Navigate to your project's root directory using the command line.
-
-3. ✍️ check a file named `.pre-commit-config.yaml` in the project's root directory. This file will contain the configuration for your pre-commit hooks.
-
-4. 💾 If everything checks run `pre-commit install` in your terminal. This command will install the hooks and set them up to run automatically before each commit.
-
-Now you're all set! 🎉 Your hooks will work their magic, keeping your codebase clean and your commits error-free.
 
 ## Usage
 
