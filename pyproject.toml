@@ -20,6 +20,7 @@ tensorflow = { version = "2.21.0", extras = ["and-cuda"] }
 torch = { version = "2.14.0", source = "pytorch-cu132" }
 torchvision = { version = "0.29.0", source = "pytorch-cu132" }
 ultralytics = "8.4.138"
+setuptools = "81.0.0"
 
 [tool.poetry.group.dev.dependencies]
 isort = "^5.12"
