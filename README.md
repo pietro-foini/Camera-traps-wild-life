@@ -59,8 +59,8 @@ poetry lock
 
 ## Model
 
-Currently, the models being used are `EfficientNetV2S` and `ConvNeXtBase`, which are implemented to undergo *fine-tuning* 
-using the custom dataset. The choice of these models was driven by its high accuracy and relatively low number of parameters. 
+Currently, the model being used is `ConvNeXtBase`, which is implemented to undergo *fine-tuning* 
+using the custom dataset. 
 
 The training sessions were conducted using an NVIDIA GeForce RTX 5060 Laptop GPU.
 
