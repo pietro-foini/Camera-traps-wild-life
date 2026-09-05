@@ -19,8 +19,11 @@ Example of results applied to camera traps located on my family’s property (us
 
 Using Grad-CAM, we achieve model explainability to observe where the model focuses to reach its conclusions:
 
-<img src="assets/gradcam.jpg" alt="Grad-CAM Visualization" width="232">
-
+<p align="center">
+  <img src="assets/gradcam.jpg" alt="Grad-CAM Visualization" width="232">
+  <img src="assets/gradcam.jpg" alt="Grad-CAM Visualization" width="232">
+  <img src="assets/gradcam.jpg" alt="Grad-CAM Visualization" width="232">
+</p>
 
 ## Installation
 
@@ -37,20 +40,6 @@ Now run:
 
 ```bash
 poetry install
-```
-
-### (Optional) Developer setup
-
-If you plan to contribute to the codebase, enable the pre-commit:
-
-```bash
-pre-commit install
-```
-
-To generate or update the [`poetry.lock`](./poetry.lock) file please run the following command:
-
-```bash
-poetry lock
 ```
 
 ## Usage
