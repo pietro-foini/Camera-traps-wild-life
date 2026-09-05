@@ -20,9 +20,13 @@ Example of results applied to camera traps located on my family’s property (us
 Using Grad-CAM, we achieve model explainability to observe where the model focuses to reach its conclusions:
 
 <p align="center">
-  <img src="assets/gradcam.jpg" alt="Grad-CAM Visualization" width="232">
-  <img src="assets/gradcam.jpg" alt="Grad-CAM Visualization" width="232">
-  <img src="assets/gradcam.jpg" alt="Grad-CAM Visualization" width="232">
+  <img src="assets/gradcam_badger.jpg" alt="Grad-CAM Visualization" width="232">
+  <img src="assets/gradcam_hare.jpg" alt="Grad-CAM Visualization" width="232">
+  <img src="assets/gradcam_fox.jpg" alt="Grad-CAM Visualization" width="232">
+</p>
+
+<p align="center">
+  <em>These images were retrieved from the <a href="https://emammal.si.edu/">eMammals</a> website in reference to the Tierschnappschuss Project based on camera trap locations in Italy.</em>
 </p>
 
 ## Installation
