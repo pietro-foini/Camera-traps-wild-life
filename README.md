@@ -7,13 +7,13 @@ remote area of Italy, where wildlife is frequently observed. The goal was to dev
 camera trap systems, where a basic motion detection algorithm could automatically identify subjects to be analyzed 
 by a fine-tuned machine learning model for image classification.
 
-Example of results applied to camera traps located on my family’s property (used only for inference purposes):
+Example of results applied to generic camera traps (used only for inference purposes):
 
 <div align="center">
 
-| Squirrel                                                      | Bear                                                         | Human                                                         |
-|---------------------------------------------------------------|--------------------------------------------------------------|---------------------------------------------------------------|
-| <img src="assets/badger.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/human.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/human2.gif" alt="GIF 2" style="width: 200;"> |
+| Squirrel                                                      | Bear                                                            | Human                                                       |
+|---------------------------------------------------------------|-----------------------------------------------------------------|-------------------------------------------------------------|
+| <img src="assets/badger.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/squirrel.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/boar.gif" alt="GIF 2" style="width: 200;"> |
 
 </div>
 
@@ -54,15 +54,22 @@ poetry install --extras gpu
 
 ## Usage
 
-1. Create an environment file (e.g., .envs/.env.gpu or .envs/.env.cpu) defining your model paths and settings
+### Model Weights Setup
 
-2. Run the FastAPI Backend using the --env-file option to load your specific .env file:
+1. Before starting the application, the required models must be downloaded.
+
+   - Object Detection: This project uses [**MegaDetector** v1000](https://github.com/agentmorris/MegaDetector/release), loaded directly from the official PyTorch releases provided by the creators.
+   - Classification: Uses a custom fine-tuned **ConvNeXtBase** model weights file.
+
+2. Create an environment file (e.g., .envs/.env.gpu or .envs/.env.cpu) defining your model paths and settings.
+
+3. Run the FastAPI Backend using the --env-file option to load your specific .env file:
 
     ```bash
     uvicorn camera_traps.backend.api.main:app --env-file .envs/.env.gpu --reload
     ```
    
-3. Running the Streamlit Frontend:
+4. Running the Streamlit Frontend:
 
    ```bash
    streamlit run camera_traps/frontend/main.py
@@ -72,9 +79,12 @@ poetry install --extras gpu
 
 ## Model
 
-Currently, the model being used is `ConvNeXtBase`, which is implemented to undergo *fine-tuning* using the custom dataset. 
+The inference pipeline consists of two stages:
 
-The training sessions were conducted using an NVIDIA GeForce RTX 5060 Laptop GPU.
+- Detection: `MegaDetector` is employed to detect animals, humans, and vehicles in camera trap images, filtering out empty frames or background noise.
+- Classification: Detected cropped regions are processed by a fine-tuned `ConvNeXtBase` model trained to identify specific wildlife species.
+
+Training and fine-tuning were executed on an NVIDIA GeForce RTX 5060 Laptop GPU.
 
 ## Dataset
 
