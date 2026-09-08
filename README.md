@@ -54,6 +54,20 @@ poetry install --extras gpu
 
 ## Usage
 
+1. Create an environment file (e.g., .envs/.env.gpu or .envs/.env.cpu) defining your model paths and settings
+
+2. Run the FastAPI Backend using the --env-file option to load your specific .env file:
+
+    ```bash
+    uvicorn camera_traps.app.api.main:app --env-file .envs/.env.gpu --reload
+    ```
+   
+3. Running the Streamlit Frontend:
+
+   ```bash
+   streamlit run camera_traps/frontend/main.py
+   ```
+
 -----
 
 ## Model

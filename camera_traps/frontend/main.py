@@ -8,8 +8,6 @@ import streamlit as st
 import supervision as sv
 from PIL import Image
 
-from camera_traps.settings import S
-
 st.set_page_config(page_title="Camera Traps Wildlife", layout="wide")
 st.title("🐾 Camera Traps Wildlife Detector")
 
@@ -32,7 +30,7 @@ if option == "Image Classification":
 
             with st.spinner("Analyzing image (this may take a few minutes)..."):
                 try:
-                    response = requests.post(f"{S.API_URL}/image/predict-image", files=files)
+                    response = requests.post("http://127.0.0.1:8000/image/predict-image", files=files)
 
                     if response.status_code == 200:
                         data = response.json()
@@ -64,7 +62,7 @@ elif option == "Video Detection":
 
             with st.spinner("1/2: Fetching predictions..."):
                 try:
-                    response = requests.post(f"{S.API_URL}/video/predict-video", files=files)
+                    response = requests.post("http://127.0.0.1:8000/video/predict-video", files=files)
                 except Exception as e:
                     st.error(f"Failed to connect to FastAPI server: {e}")
                     st.stop()

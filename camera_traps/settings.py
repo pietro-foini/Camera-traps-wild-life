@@ -4,9 +4,6 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Global Settings"""
 
-    API_URL: str = "http://127.0.0.1:8000"
-    """base URL for the backend API"""
-
     # Models.
     CLASSIFIER_MODEL_PATH: str
     """path to the model used for image classification"""
