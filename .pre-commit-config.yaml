@@ -1,0 +1,27 @@
+repos:
+- repo: local
+  hooks:
+    - id: black
+      name: black
+      entry: black
+      language: system
+      types: [python]
+      args: [--config, pyproject.toml]
+    - id: isort
+      name: isort
+      entry: isort
+      language: system
+      types: [python]
+      args: [--settings-path, pyproject.toml, --filter-files]
+    - id: pydocstyle
+      name: pydocstyle
+      entry: pydocstyle
+      language: system
+      types: [python]
+      args: [--select=D101,D102,D103,D105,D106,D107,D414]
+    - id: mypy
+      name: mypy
+      entry: bash ./mypy_script.sh
+      language: system
+      types: [python]
+    
