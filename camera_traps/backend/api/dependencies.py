@@ -1,6 +1,6 @@
 from fastapi import Request
 
-from camera_traps.app.models.domain import Predictor
+from camera_traps.backend.models.domain import Predictor
 
 
 def get_classifier(request: Request) -> Predictor:

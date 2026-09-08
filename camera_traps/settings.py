@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     # Thresholds.
     CLASSIFIER_THRESHOLD: float = 0.95
     """threshold for keeping classified images"""
-    DETECTOR_THRESHOLD: float = 0.9
+    DETECTOR_THRESHOLD: float = 0.8
     """threshold for keeping detected objects"""
 
 

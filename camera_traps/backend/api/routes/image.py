@@ -2,9 +2,9 @@ import cv2
 import numpy as np
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 
-from camera_traps.app.api.dependencies import get_classifier
-from camera_traps.app.models.domain import Predictor
-from camera_traps.app.schemas.base import ImageClassificationResponse
+from camera_traps.backend.api.dependencies import get_classifier
+from camera_traps.backend.models.domain import Predictor
+from camera_traps.backend.schemas.base import ImageClassificationResponse
 
 image_router = APIRouter(prefix="/image", tags=["Image"])
 

@@ -6,10 +6,10 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from tqdm import tqdm
 from trackers import SORTTracker
 
-from camera_traps.app.api.dependencies import get_classifier, get_detector
-from camera_traps.app.models.domain import Predictor
-from camera_traps.app.schemas.base import BoundingBox, Detection, VideoDetectionResponse
-from camera_traps.app.services.tracking import smooth_labels
+from camera_traps.backend.api.dependencies import get_classifier, get_detector
+from camera_traps.backend.models.domain import Predictor
+from camera_traps.backend.schemas.base import BoundingBox, Detection, VideoDetectionResponse
+from camera_traps.backend.services.tracking import smooth_labels
 from camera_traps.settings import S
 
 video_router = APIRouter(prefix="/video", tags=["Video"])

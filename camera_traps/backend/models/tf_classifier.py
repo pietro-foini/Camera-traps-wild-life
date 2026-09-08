@@ -3,22 +3,20 @@ import os
 
 import cv2
 import numpy as np
-from ai_edge_litert.interpreter import Interpreter
+import tensorflow as tf
 
-from camera_traps.app.models.domain import Predictor
-from camera_traps.app.schemas.base import Classification
+from camera_traps.backend.models.domain import Predictor
+from camera_traps.backend.schemas.base import Classification
 
 
-class TFLiteImageClassifier(Predictor):
-    """TFLite Image Classifier."""
+class TFImageClassifier(Predictor):
+    """TensorFlow Image Classifier."""
 
     def __init__(self, img_size: tuple[int, int], class_names: list[str]) -> None:
         super().__init__()
 
         self.img_size = img_size
         self.class_names = class_names
-        self._input_details = None
-        self._output_details = None
 
     def load(self, artifact_uri: str) -> None:
         """Load model."""
@@ -26,11 +24,13 @@ class TFLiteImageClassifier(Predictor):
         if not os.path.exists(artifact_uri):
             raise FileNotFoundError(f"Model not found: {artifact_uri}")
 
-        self._model = Interpreter(model_path=artifact_uri, num_threads=4)
-        self._model.allocate_tensors()
+        gpus = tf.config.list_physical_devices("GPU")
+        if gpus:
+            logging.info("GPUs detected: %s", gpus)
+        else:
+            logging.warning("No GPU found!")
 
-        self._input_details = self._model.get_input_details()
-        self._output_details = self._model.get_output_details()
+        self._model = tf.keras.models.load_model(artifact_uri)
 
         logging.info("Loaded model: %s", artifact_uri)
 
@@ -47,10 +47,7 @@ class TFLiteImageClassifier(Predictor):
 
         prediction_input = self.preprocess(instance)
 
-        self._model.set_tensor(self._input_details[0]["index"], prediction_input)
-        self._model.invoke()
-
-        results = self._model.get_tensor(self._output_details[0]["index"])[0]
+        results = self._model.predict(prediction_input, verbose=False)[0]
 
         return [
             Classification(

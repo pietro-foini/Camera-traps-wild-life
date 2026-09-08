@@ -5,8 +5,8 @@ from typing import Any
 import numpy as np
 from ultralytics import YOLO
 
-from camera_traps.app.models.domain import Predictor
-from camera_traps.app.schemas.base import BoundingBox, Detection
+from camera_traps.backend.models.domain import Predictor
+from camera_traps.backend.schemas.base import BoundingBox, Detection
 
 
 class PTImageDetector(Predictor):

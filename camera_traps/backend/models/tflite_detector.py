@@ -5,8 +5,8 @@ import cv2
 import numpy as np
 from ai_edge_litert.interpreter import Interpreter
 
-from camera_traps.app.models.domain import Predictor
-from camera_traps.app.schemas.base import BoundingBox, Detection
+from camera_traps.backend.models.domain import Predictor
+from camera_traps.backend.schemas.base import BoundingBox, Detection
 
 
 class TFLiteImageDetector(Predictor):
