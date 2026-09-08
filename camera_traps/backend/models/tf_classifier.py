@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Any
 
 import cv2
 import numpy as np
@@ -42,7 +43,7 @@ class TFImageClassifier(Predictor):
 
         return np.expand_dims(prediction_input, axis=0)
 
-    def predict(self, instance: np.ndarray, top: int = 1) -> list[Classification]:
+    def predict(self, instance: np.ndarray, top: int = 1, **kwargs: Any) -> list[Classification]:
         """Run image classification."""
 
         prediction_input = self.preprocess(instance)

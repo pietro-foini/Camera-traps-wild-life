@@ -22,6 +22,6 @@ class Predictor(ABC):
         pass
 
     @abstractmethod
-    def predict(self, instance: np.ndarray) -> Any:
+    def predict(self, instance: np.ndarray, **kwargs: Any) -> Any:
         """Perform model inference."""
         pass
