@@ -30,7 +30,7 @@ async def lifespan(app: FastAPI):
         from camera_traps.backend.models.tflite_classifier import TFLiteImageClassifier
 
         classifier = TFLiteImageClassifier(img_size=S.CLASSIFIER_IMAGE_SIZE, class_names=class_names)
-        classifier.load(S.CLASSIFIER_TFLITE_PATH)
+        classifier.load(S.CLASSIFIER_MODEL_PATH)
 
     else:
         raise ValueError(f"Unsupported classifier")
@@ -46,7 +46,7 @@ async def lifespan(app: FastAPI):
         from camera_traps.backend.models.tflite_detector import TFLiteImageDetector
 
         detector = TFLiteImageDetector(img_size=S.DETECTOR_IMAGE_SIZE, class_names=["animal", "person", "vehicle"])
-        detector.load(S.DETECTOR_TFLITE_PATH)
+        detector.load(S.DETECTOR_MODEL_PATH)
 
     else:
         raise ValueError(f"Unsupported detector")
