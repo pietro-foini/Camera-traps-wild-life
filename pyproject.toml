@@ -8,30 +8,36 @@ packages = [{ include = "camera_traps" }]
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
+# Web App & API
 uvicorn = "0.52.4"
 fastapi = "0.141.1"
+python-multipart = "0.0.32"
+streamlit = "1.63.0"
+# Data Processing & Config
 pandas = "3.0.5"
 numpy = "2.4.6"
+pydantic = "2.13.5"
+pydantic-settings = "2.8.1"
+# Computer Vision & Models
 opencv-python = "5.0.0.93"
 pillow = "12.3.0"
 ultralytics = "8.4.138"
 trackers = "2.6.0"
 supervision = "0.30.2"
-pydantic = "2.13.5"
-pydantic-settings = "2.8.1"
-python-multipart = "0.0.32"
 av = "18.1.0"
 ai-edge-litert = "2.2.0"
-streamlit = "1.63.0"
+# PyTorch GPU (ultralytics dependency)
 torch = { version = "2.14.0", source = "pytorch-cu132", optional = true }
 torchvision = { version = "0.29.0", source = "pytorch-cu132", optional = true }
 
 [tool.poetry.group.dev.dependencies]
+# Development tool
 isort = "^5.12"
 black = "^22"
 mypy = "^1.3"
 pre-commit = "^4.3.0"
 pydocstyle = "^6.3"
+# Notebook environment & Training
 notebook = "7.6.2"
 traitlets = "5.16.1"
 imagesize = "2.0.1"
