@@ -11,7 +11,7 @@ Example of results applied to generic camera traps (used only for inference purp
 
 <div align="center">
 
-| Squirrel                                                      | Bear                                                            | Human                                                       |
+| Badgers                                                       | Squirrel & Bird                                                 | Boars                                                       |
 |---------------------------------------------------------------|-----------------------------------------------------------------|-------------------------------------------------------------|
 | <img src="assets/badger.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/squirrel.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/boar.gif" alt="GIF 2" style="width: 200;"> |
 
