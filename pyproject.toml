@@ -19,7 +19,7 @@ numpy = "2.4.6"
 pydantic = "2.13.5"
 pydantic-settings = "2.8.1"
 # Computer Vision & Models
-opencv-python = "5.0.0.93"
+opencv-python-headless = "5.0.0.93"
 pillow = "12.3.0"
 ultralytics = "8.4.138"
 trackers = "2.6.0"
