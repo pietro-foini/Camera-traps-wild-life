@@ -405,6 +405,7 @@ mypy_recap.txt
 *.pt
 *.keras
 *.h5
+*.tflite
 
 # TensorBoard logs
 logs/
