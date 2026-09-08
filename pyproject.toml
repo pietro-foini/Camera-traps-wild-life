@@ -21,14 +21,15 @@ pydantic-settings = "2.8.1"
 # Computer Vision & Models
 opencv-python-headless = "5.0.0.93"
 pillow = "12.3.0"
-ultralytics = "8.4.138"
 trackers = "2.6.0"
 supervision = "0.30.2"
 av = "18.1.0"
 ai-edge-litert = "2.2.0"
-# PyTorch GPU (ultralytics dependency)
-torch = { version = "2.14.0", source = "pytorch-cu132", optional = true }
-torchvision = { version = "0.29.0", source = "pytorch-cu132", optional = true }
+# GPU support
+ultralytics = { version = "8.4.143", optional = true }
+torch = { version = "2.11.0", source = "pytorch-cu128", optional = true }
+torchvision = { version = "0.26.0", source = "pytorch-cu128", optional = true }
+tensorflow = { version = "2.21.0", extras = ["and-cuda"], optional = true }
 
 [tool.poetry.group.dev.dependencies]
 # Development Tools
@@ -45,7 +46,6 @@ ipywidgets = "8.1.9"
 matplotlib = "3.11.1"
 scikit-learn = "1.9.0"
 setuptools = "81.0.0"
-tensorflow = { version = "2.21.0", extras = ["and-cuda"] }
 
 [tool.poetry.group.test.dependencies]
 pytest-mock = "^3.7.0"
@@ -53,11 +53,13 @@ mock = "^4.0.3"
 pytest = "7.1.2"
 
 [tool.poetry.extras]
-gpu = ["torch", "torchvision"]
+torch-gpu = ["torch", "torchvision", "ultralytics"]
+tf-gpu = ["tensorflow"]
+gpu = ["torch", "torchvision", "ultralytics", "tensorflow"]
 
 [[tool.poetry.source]]
-name = "pytorch-cu132"
-url = "https://download.pytorch.org/whl/cu132"
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
 priority = "explicit"
 
 [build-system]

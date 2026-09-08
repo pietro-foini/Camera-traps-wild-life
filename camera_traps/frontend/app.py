@@ -162,7 +162,7 @@ elif option == "Video Detection":
                         .rename(columns={"tracking_id": "Track ID", "class_name": "Label"})
                         .sort_values(by="Track ID")
                     )
-                    st.dataframe(summary_df, use_container_width=True, hide_index=True)
+                    st.dataframe(summary_df, width="content", hide_index=True)
 
                 finally:
                     # Cleanup temporary files.

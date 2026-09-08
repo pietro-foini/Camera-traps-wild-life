@@ -1,15 +1,19 @@
 import cv2
 import numpy as np
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 
-from camera_traps.app.api.config import classifier
+from camera_traps.app.api.dependencies import get_classifier
+from camera_traps.app.models.domain import Predictor
 from camera_traps.app.schemas.base import ImageClassificationResponse
 
 image_router = APIRouter(prefix="/image", tags=["Image"])
 
 
 @image_router.post("/predict-image", response_model=ImageClassificationResponse)
-async def predict_image(file: UploadFile = File(...)):
+async def predict_image(
+    file: UploadFile = File(...),
+    classifier: Predictor = Depends(get_classifier),
+):
 
     if not file.content_type or not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="Uploaded file is not a valid image.")

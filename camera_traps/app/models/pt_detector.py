@@ -9,8 +9,8 @@ from camera_traps.app.models.domain import Predictor
 from camera_traps.app.schemas.base import BoundingBox, Detection
 
 
-class ImageDetector(Predictor):
-    """Image detector."""
+class PTImageDetector(Predictor):
+    """PyTorch Image Detector."""
 
     def __init__(self) -> None:
         super().__init__()
@@ -39,7 +39,7 @@ class ImageDetector(Predictor):
         # Predict.
         prediction_input = self.preprocess(instance)
 
-        results = self._model(prediction_input, verbose=False)
+        results = self._model(prediction_input, device="cuda", verbose=False)
         result = results[0]
 
         return [

@@ -40,10 +40,16 @@ Now activate it, cd into the project repo and run the following command:
 pip install -r requirements.txt
 ```
 
-Now run:
+### CPU / Lite Setup
 
 ```bash
-poetry install
+poetry install --only main
+```
+
+### GPU Setup
+
+```bash
+poetry install --extras gpu
 ```
 
 ## Usage
@@ -52,8 +58,7 @@ poetry install
 
 ## Model
 
-Currently, the model being used is `ConvNeXtBase`, which is implemented to undergo *fine-tuning* 
-using the custom dataset. 
+Currently, the model being used is `ConvNeXtBase`, which is implemented to undergo *fine-tuning* using the custom dataset. 
 
 The training sessions were conducted using an NVIDIA GeForce RTX 5060 Laptop GPU.
 

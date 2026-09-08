@@ -2,11 +2,12 @@ import av
 import numpy as np
 import pandas as pd
 import supervision as sv
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from tqdm import tqdm
 from trackers import SORTTracker
 
-from camera_traps.app.api.config import classifier, detector
+from camera_traps.app.api.dependencies import get_classifier, get_detector
+from camera_traps.app.models.domain import Predictor
 from camera_traps.app.schemas.base import BoundingBox, Detection, VideoDetectionResponse
 from camera_traps.app.services.tracking import smooth_labels
 from camera_traps.settings import S
@@ -15,7 +16,11 @@ video_router = APIRouter(prefix="/video", tags=["Video"])
 
 
 @video_router.post("/predict-video", response_model=VideoDetectionResponse)
-async def predict_video(file: UploadFile = File(...)):
+async def predict_image(
+    file: UploadFile = File(...),
+    classifier: Predictor = Depends(get_classifier),
+    detector: Predictor = Depends(get_detector),
+):
 
     if not file.content_type or not file.content_type.startswith("video/"):
         raise HTTPException(status_code=400, detail="Uploaded file is not a valid video.")
