@@ -30,6 +30,10 @@ ultralytics = { version = "8.4.143", optional = true }
 torch = { version = "2.11.0", source = "pytorch-cu128", optional = true }
 torchvision = { version = "0.26.0", source = "pytorch-cu128", optional = true }
 tensorflow = { version = "2.21.0", extras = ["and-cuda"], optional = true }
+# CPU support (not compatiple with GPU support)
+#torch = { version = "2.11.0", source = "pytorch-cpu", optional = true }
+#torchvision = { version = "0.26.0", source = "pytorch-cpu", optional = true }
+#tensorflow-cpu = { version = "2.21.0", optional = true }
 
 [tool.poetry.group.dev.dependencies]
 # Development Tools
@@ -53,13 +57,17 @@ mock = "^4.0.3"
 pytest = "7.1.2"
 
 [tool.poetry.extras]
-torch-gpu = ["torch", "torchvision", "ultralytics"]
-tf-gpu = ["tensorflow"]
 gpu = ["torch", "torchvision", "ultralytics", "tensorflow"]
+#cpu = ["torch", "torchvision", "ultralytics", "tensorflow-cpu"]
 
 [[tool.poetry.source]]
 name = "pytorch-cu128"
 url = "https://download.pytorch.org/whl/cu128"
+priority = "explicit"
+
+[[tool.poetry.source]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
 priority = "explicit"
 
 [build-system]
