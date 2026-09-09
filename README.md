@@ -1,5 +1,8 @@
 # Camera-traps-wild-life
 
+[![Unit Tests](https://github.com/pietro-foini/camera-traps-wild-life/actions/workflows/tests.yml/badge.svg)](https://github.com/pietro-foini/camera-traps-wild-life/actions)
+
+
 Hello there! 😀
 
 This project was born from the idea of applying such algorithms to camera traps located on my family’s property in a 
@@ -64,7 +67,7 @@ poetry install --extras gpu
 3. Run the FastAPI Backend using the --env-file option to load your specific .env file:
 
     ```bash
-    uvicorn camera_traps.backend.api.main:app --env-file .envs/.env.gpu --reload
+    uvicorn camera_traps.backend.main:app --env-file .envs/.env.gpu --reload
     ```
    
 4. Running the Streamlit Frontend:
