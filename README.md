@@ -54,8 +54,6 @@ poetry install --extras gpu
 
 ## Usage
 
-### Model Weights Setup
-
 1. Before starting the application, the required models must be downloaded.
 
    - Object Detection: This project uses [**MegaDetector** v1000](https://github.com/agentmorris/MegaDetector/release), loaded directly from the official PyTorch releases provided by the creators.
