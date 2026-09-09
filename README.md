@@ -1,5 +1,8 @@
 # Camera-traps-wild-life
 
+[![Unit Tests](https://github.com/pietro-foini/camera-traps-wild-life/actions/workflows/tests.yml/badge.svg)](https://github.com/pietro-foini/camera-traps-wild-life/actions)
+
+
 Hello there! 😀
 
 This project was born from the idea of applying such algorithms to camera traps located on my family’s property in a 
