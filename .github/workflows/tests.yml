@@ -1,0 +1,39 @@
+name: Automatic Tests
+
+on: [push, pull_request]
+
+jobs:
+  # Native unit tests running directly on the x86_64 runner
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Poetry and dependencies
+        run: |
+          pip install -r requirements.txt
+          poetry install --only main,test
+
+      - name: Run tests
+        run: poetry run pytest
+
+#  # Cross-platform tests running inside an emulated ARM64 container via QEMU
+#  run-arm64-tests:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Set up QEMU
+#        uses: docker/setup-qemu-action@v3
+#
+#      - name: Run test suite inside ARM64 container
+#        run: |
+#          docker run --rm --platform linux/arm64 \
+#            -v ${{ github.workspace }}:/app -w /app \
+#            python:3.11-slim \
+#            bash -c "pip install poetry && poetry install --only main,test && poetry run pytest"

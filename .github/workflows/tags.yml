@@ -1,0 +1,45 @@
+name: Check Version & Tag
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+
+jobs:
+  tag-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Check Version (PR)
+        if: github.event_name == 'pull_request'
+        run: |
+          chmod +x ./check_version_push_tag.sh
+          ./check_version_push_tag.sh ${{ github.base_ref }} false
+
+      - name: Check Version and Push Tag (Push)
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          chmod +x ./check_version_push_tag.sh
+          ./check_version_push_tag.sh ${{ github.ref_name }} true
