@@ -1,6 +1,7 @@
 # Camera-traps-wild-life
 
 [![Unit Tests](https://github.com/pietro-foini/camera-traps-wild-life/actions/workflows/tests.yml/badge.svg)](https://github.com/pietro-foini/camera-traps-wild-life/actions)
+[![GitHub Release](https://img.shields.io/github/v/tag/pietro-foini/camera-traps-wild-life?label=version)](https://github.com/pietro-foini/camera-traps-wild-life/releases)
 
 
 Hello there! 😀
@@ -43,7 +44,7 @@ Now activate it, cd into the project repo and run the following command:
 pip install -r requirements.txt
 ```
 
-### CPU / Lite Setup
+### Lite Setup
 
 ```bash
 poetry install --only main
@@ -55,6 +56,32 @@ poetry install --only main
 poetry install --extras gpu
 ```
 
+### CPU Setup
+
+For a CPU-only setup, the GPU dependencies must be disabled in `pyproject.toml` and uncomment the CPU dependencies.
+
+After changing `pyproject.toml`, regenerate the lock file:
+
+```bash
+poetry lock
+```
+
+Finally, install the CPU dependencies with:
+
+```bash
+poetry install --extras cpu
+```
+
+Note: GPU and CPU dependencies are mutually exclusive. Do not enable both configurations at the same time.
+
+## Database Setup
+
+This project uses **PostgreSQL** to record image metadata and model prediction outputs via SQLAlchemy.
+
+### Database Configuration
+
+Ensure you have a running PostgreSQL instance. Set up your database credentials in your environment file (e.g., `.envs/.env.gpu` or `.envs/.env.cpu`):
+
 ## Usage
 
 1. Before starting the application, the required models must be downloaded.
@@ -64,17 +91,39 @@ poetry install --extras gpu
 
 2. Create an environment file (e.g., .envs/.env.gpu or .envs/.env.cpu) defining your model paths and settings.
 
-3. Run the FastAPI Backend using the --env-file option to load your specific .env file:
+### Option A: Local Setup
+
+- Backend (FastAPI):
 
     ```bash
     uvicorn camera_traps.backend.main:app --env-file .envs/.env.gpu --reload
     ```
-   
-4. Running the Streamlit Frontend:
+
+- Frontend (Streamlit)::
 
    ```bash
    streamlit run camera_traps/frontend/main.py
    ```
+  
+### Option B: Docker Setup
+
+Run the entire pipeline (PostgreSQL database, FastAPI backend, and Streamlit frontend) with a single command:
+
+```bash
+docker compose --env-file .env up --build
+```
+
+Note on Model Volumes: By default, Docker Compose mounts ./models to /app/models. If your model files are stored in a 
+different host path, override the MODELS_DIR environment variable:
+
+```bash
+ENV_FILE=/path/to/your/local/env MODELS_DIR=/path/to/your/local/models docker compose --env-file .envs/.env.dke up --build
+```
+
+Once running, access:
+
+- FastAPI Backend: http://localhost:8000
+- Streamlit Frontend: http://localhost:8501
 
 -----
 

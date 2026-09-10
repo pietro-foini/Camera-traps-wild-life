@@ -1,3 +1,5 @@
+import io
+
 import av
 import numpy as np
 import pandas as pd
@@ -6,7 +8,9 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from tqdm import tqdm
 from trackers import SORTTracker
 
-from camera_traps.backend.api.dependencies import get_classifier, get_detector
+from camera_traps.backend.api.dependencies import get_classifier, get_db, get_detector
+from camera_traps.backend.db.domain import DBInterface
+from camera_traps.backend.db.models import VideoInputModel, VideoOutputModel
 from camera_traps.backend.models.domain import Predictor
 from camera_traps.backend.schemas.base import BoundingBox, Detection, VideoDetectionResponse
 from camera_traps.backend.services.tracking import smooth_labels
@@ -16,20 +20,25 @@ video_router = APIRouter(prefix="/video", tags=["Video"])
 
 
 @video_router.post("/predict-video", response_model=VideoDetectionResponse)
-async def predict_image(
+async def predict_video(
     file: UploadFile = File(...),
     classifier: Predictor = Depends(get_classifier),
     detector: Predictor = Depends(get_detector),
+    db: DBInterface = Depends(get_db),
 ):
 
     if not file.content_type or not file.content_type.startswith("video/"):
         raise HTTPException(status_code=400, detail="Uploaded file is not a valid video.")
 
+    video_record = VideoInputModel(filename=file.filename)
+    saved_video = db.add_record(video_record)
+
     # Initialize tracker.
     tracker = SORTTracker()
 
     # Open video file.
-    container = av.open(file.file)
+    video_bytes = await file.read()
+    container = av.open(io.BytesIO(video_bytes))
 
     tracking_data = []
     frame_id = 0
@@ -99,6 +108,21 @@ async def predict_image(
     # Process data.
     df = pd.DataFrame(tracking_data)
     df_smooth = smooth_labels(df, threshold=S.CLASSIFIER_THRESHOLD)
+
+    # Store record on database.
+    for _, row in df_smooth.iterrows():
+        detection_record = VideoOutputModel(
+            video_input_id=saved_video.id,
+            frame_id=int(row["frame_id"]),
+            tracker_id=int(row["tracker_id"]),
+            label=row["label"],
+            confidence=float(row["confidence"]),
+            x_min=float(row["xmin"]),
+            y_min=float(row["ymin"]),
+            x_max=float(row["xmax"]),
+            y_max=float(row["ymax"]),
+        )
+        db.add_record(detection_record)
 
     return VideoDetectionResponse(
         filename=file.filename,
