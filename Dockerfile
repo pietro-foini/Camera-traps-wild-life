@@ -15,7 +15,12 @@ FROM python:3.11-slim AS runner
 WORKDIR /app
 
 # Install supervisor and clean apt cache to keep the image small
-RUN apt-get update && apt-get install -y --no-install-recommends supervisor \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    supervisor \
+    libgl1 \
+    libglib2.0-0 \
+    libxcb1 \
+    libx11-xcb1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy built virtual environment from the builder stage
