@@ -1,6 +1,7 @@
 # Camera-traps-wild-life
 
 [![Unit Tests](https://github.com/pietro-foini/camera-traps-wild-life/actions/workflows/tests.yml/badge.svg)](https://github.com/pietro-foini/camera-traps-wild-life/actions)
+[![GitHub Release](https://img.shields.io/github/v/tag/pietro-foini/camera-traps-wild-life?label=version)](https://github.com/pietro-foini/camera-traps-wild-life/releases)
 
 
 Hello there! 😀
