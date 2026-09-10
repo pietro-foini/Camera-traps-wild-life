@@ -1,3 +1,5 @@
+import io
+
 import av
 import numpy as np
 import pandas as pd
@@ -16,7 +18,7 @@ video_router = APIRouter(prefix="/video", tags=["Video"])
 
 
 @video_router.post("/predict-video", response_model=VideoDetectionResponse)
-async def predict_image(
+async def predict_video(
     file: UploadFile = File(...),
     classifier: Predictor = Depends(get_classifier),
     detector: Predictor = Depends(get_detector),
@@ -29,7 +31,8 @@ async def predict_image(
     tracker = SORTTracker()
 
     # Open video file.
-    container = av.open(file.file)
+    video_bytes = await file.read()
+    container = av.open(io.BytesIO(video_bytes))
 
     tracking_data = []
     frame_id = 0
