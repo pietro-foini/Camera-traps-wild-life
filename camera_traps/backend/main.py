@@ -6,6 +6,7 @@ from pathlib import Path
 from fastapi import FastAPI
 
 from camera_traps.backend.api.routes import image_router, video_router
+from camera_traps.backend.db.postgres import PostgresHandler
 from camera_traps.settings import S
 
 logging.basicConfig(level=logging.INFO)
@@ -14,6 +15,17 @@ logging.basicConfig(level=logging.INFO)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logging.info("Starting up server")
+
+    # Database initialization.
+    db = PostgresHandler(
+        db_user=S.DB_USER,
+        db_password=S.DB_PASSWORD,
+        db_host=S.DB_HOST,
+        db_port=S.DB_PORT,
+        db_name=S.DB_NAME,
+    )
+    db.init_db()
+    app.state.db = db
 
     with open(S.CLASSIFIER_CLASSES_PATH, "r") as f:
         labels = json.load(f)
