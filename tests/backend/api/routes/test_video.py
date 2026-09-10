@@ -37,7 +37,7 @@ def create_dummy_video_bytes():
 def test_predict_video_success():
     """Successful video prediction."""
 
-    from camera_traps.backend.api.dependencies import get_classifier, get_detector
+    from camera_traps.backend.api.dependencies import get_classifier, get_detector, get_db
     from camera_traps.backend.api.routes import video_router
 
     # Setup Detector Mock.
@@ -91,6 +91,7 @@ def test_predict_video_success():
 
     app.dependency_overrides[get_detector] = lambda: mock_detector
     app.dependency_overrides[get_classifier] = lambda: mock_classifier
+    app.dependency_overrides[get_db] = lambda: MagicMock()
 
     # Create dummy video.
     video_bytes = create_dummy_video_bytes()
@@ -134,7 +135,7 @@ def test_predict_video_success():
 def test_predict_video_invalid_content_type():
     """Invalid content type."""
 
-    from camera_traps.backend.api.dependencies import get_classifier, get_detector
+    from camera_traps.backend.api.dependencies import get_classifier, get_detector, get_db
     from camera_traps.backend.api.routes import video_router
 
     app = FastAPI()
@@ -143,6 +144,7 @@ def test_predict_video_invalid_content_type():
 
     app.dependency_overrides[get_detector] = lambda: MagicMock()
     app.dependency_overrides[get_classifier] = lambda: MagicMock()
+    app.dependency_overrides[get_db] = lambda: MagicMock()
 
     response = client.post(
         "/video/predict-video",
@@ -156,7 +158,7 @@ def test_predict_video_invalid_content_type():
 def test_predict_video_no_detections():
     """No detections in video."""
 
-    from camera_traps.backend.api.dependencies import get_classifier, get_detector
+    from camera_traps.backend.api.dependencies import get_classifier, get_detector, get_db
     from camera_traps.backend.api.routes import video_router
 
     mock_detector = MagicMock()
@@ -170,6 +172,7 @@ def test_predict_video_no_detections():
 
     app.dependency_overrides[get_detector] = lambda: mock_detector
     app.dependency_overrides[get_classifier] = lambda: mock_classifier
+    app.dependency_overrides[get_db] = lambda: MagicMock()
 
     video_bytes = create_dummy_video_bytes()
 

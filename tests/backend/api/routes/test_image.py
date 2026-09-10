@@ -22,7 +22,7 @@ def create_dummy_image_bytes():
 def test_predict_image_success():
     """Successful image prediction."""
 
-    from camera_traps.backend.api.dependencies import get_classifier
+    from camera_traps.backend.api.dependencies import get_classifier, get_db
     from camera_traps.backend.api.routes import image_router
 
     # Setup Classifier Mock.
@@ -41,6 +41,7 @@ def test_predict_image_success():
     client = TestClient(app)
 
     app.dependency_overrides[get_classifier] = lambda: mock_predictor
+    app.dependency_overrides[get_db] = lambda: MagicMock()
 
     # Create dummy image.
     image_bytes = create_dummy_image_bytes()
@@ -65,13 +66,15 @@ def test_predict_image_success():
 def test_predict_image_invalid_content_type():
     """Invalid content type."""
 
-    from camera_traps.backend.api.dependencies import get_classifier
+    from camera_traps.backend.api.dependencies import get_classifier, get_db
     from camera_traps.backend.api.routes import image_router
 
     app = FastAPI()
     app.include_router(image_router)
     client = TestClient(app)
+
     app.dependency_overrides[get_classifier] = lambda: MagicMock()
+    app.dependency_overrides[get_db] = lambda: MagicMock()
 
     response = client.post(
         "/image/predict-image",
@@ -85,13 +88,15 @@ def test_predict_image_invalid_content_type():
 def test_predict_image_corrupt_bytes():
     """Corrupt bytes."""
 
-    from camera_traps.backend.api.dependencies import get_classifier
+    from camera_traps.backend.api.dependencies import get_classifier, get_db
     from camera_traps.backend.api.routes import image_router
 
     app = FastAPI()
     app.include_router(image_router)
     client = TestClient(app)
+
     app.dependency_overrides[get_classifier] = lambda: MagicMock()
+    app.dependency_overrides[get_db] = lambda: MagicMock()
 
     response = client.post(
         "/image/predict-image",
