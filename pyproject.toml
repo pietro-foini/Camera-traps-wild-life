@@ -25,6 +25,9 @@ trackers = "2.6.0"
 supervision = "0.30.2"
 av = "18.1.0"
 ai-edge-litert = "2.2.0"
+# Database & ORM
+SQLAlchemy = "2.0.52"
+psycopg2-binary = "2.9.13"
 # GPU support
 ultralytics = { version = "8.4.143", optional = true }
 torch = { version = "2.11.0", source = "pytorch-cu128", optional = true }

@@ -56,6 +56,13 @@ poetry install --only main
 poetry install --extras gpu
 ```
 
+## Database Setup
+
+This project uses **PostgreSQL** to record image metadata and model prediction outputs via SQLAlchemy.
+
+### Database Configuration
+Ensure you have a running PostgreSQL instance. Set up your database credentials in your environment file (e.g., `.envs/.env.gpu` or `.envs/.env.cpu`):
+
 ## Usage
 
 1. Before starting the application, the required models must be downloaded.
