@@ -44,7 +44,7 @@ Now activate it, cd into the project repo and run the following command:
 pip install -r requirements.txt
 ```
 
-### CPU / Lite Setup
+### Lite Setup
 
 ```bash
 poetry install --only main
@@ -55,6 +55,24 @@ poetry install --only main
 ```bash
 poetry install --extras gpu
 ```
+
+### CPU Setup
+
+For a CPU-only setup, the GPU dependencies must be disabled in `pyproject.toml` and uncomment the CPU dependencies.
+
+After changing `pyproject.toml`, regenerate the lock file:
+
+```bash
+poetry lock
+```
+
+Finally, install the CPU dependencies with:
+
+```bash
+poetry install --extras cpu
+```
+
+Note: GPU and CPU dependencies are mutually exclusive. Do not enable both configurations at the same time.
 
 ## Database Setup
 
