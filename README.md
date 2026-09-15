@@ -76,27 +76,27 @@ Note: GPU and CPU dependencies are mutually exclusive. Do not enable both config
 
 ## Database Setup
 
-This project uses **PostgreSQL** to record image metadata and model prediction outputs via SQLAlchemy.
+This project uses **PostgreSQL** to record image metadata and model prediction outputs.
 
 ### Database Configuration
 
-Ensure you have a running PostgreSQL instance. Set up your database credentials in your environment file (e.g., `.envs/.env.gpu` or `.envs/.env.cpu`):
+Ensure you have a running PostgreSQL instance.
 
 ## Usage
 
 1. Before starting the application, the required models must be downloaded.
 
    - Object Detection: This project uses [**MegaDetector** v1000](https://github.com/agentmorris/MegaDetector/release), loaded directly from the official PyTorch releases provided by the creators.
-   - Classification: Uses a custom fine-tuned **ConvNeXtBase** model weights file.
+   - Classification: Uses a custom fine-tuned **ConvNeXtBase** model.
 
-2. Create an environment file (e.g., .envs/.env.gpu or .envs/.env.cpu) defining your model paths and settings.
+2. Create an environment file defining your model paths and settings (see [`settings.py`](./camera_traps/settings.py)).
 
 ### Option A: Local Setup
 
 - Backend (FastAPI):
 
     ```bash
-    uvicorn camera_traps.backend.main:app --env-file .envs/.env.gpu --reload
+    uvicorn camera_traps.backend.main:app --env-file /path/to/your/local/env --reload
     ```
 
 - Frontend (Streamlit)::
@@ -110,14 +110,14 @@ Ensure you have a running PostgreSQL instance. Set up your database credentials 
 Run the entire pipeline (PostgreSQL database, FastAPI backend, and Streamlit frontend) with a single command:
 
 ```bash
-docker compose --env-file .env up --build
+docker compose --env-file /path/to/your/local/env up --build
 ```
 
 Note on Model Volumes: By default, Docker Compose mounts ./models to /app/models. If your model files are stored in a 
 different host path, override the MODELS_DIR environment variable:
 
 ```bash
-ENV_FILE=/path/to/your/local/env MODELS_DIR=/path/to/your/local/models docker compose --env-file .envs/.env.dke up --build
+ENV_FILE=/path/to/your/local/env MODELS_DIR=/path/to/your/local/models docker compose --env-file /path/to/your/local/env up --build
 ```
 
 Once running, access:
