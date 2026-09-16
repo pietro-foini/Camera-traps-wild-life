@@ -13,13 +13,19 @@ by a fine-tuned machine learning model for image classification.
 
 Example of results applied to generic camera traps (used only for inference purposes):
 
-<div align="center">
-
-| Badgers                                                       | Squirrel & Bird                                                 | Boars                                                       |
-|---------------------------------------------------------------|-----------------------------------------------------------------|-------------------------------------------------------------|
-| <img src="assets/badger.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/squirrel.gif" alt="GIF 1" style="width: 200;"> | <img src="assets/boar.gif" alt="GIF 2" style="width: 200;"> |
-
-</div>
+<table width="100%" align="center">
+  <tr>
+    <td align="center" width="33%">
+      <video src="https://github.com/user-attachments/assets/f903c4a7-a3cb-48b9-8807-4d2c9d73d5d4" width="100%" muted autoplay loop></video>
+    </td>
+    <td align="center" width="33%">
+      <video src="https://github.com/user-attachments/assets/4f40051a-4307-4f2d-987a-77a2167c8220" width="100%" muted autoplay loop></video>
+    </td>
+    <td align="center" width="33%">
+      <video src="https://github.com/user-attachments/assets/7968e2a3-fbf9-4bf2-966d-ab31f4e82518" width="100%" muted autoplay loop></video>
+    </td>
+  </tr>
+</table>
 
 Using Grad-CAM, we achieve model explainability to observe where the model focuses to reach its conclusions:
 
@@ -74,14 +80,6 @@ poetry install --extras cpu
 
 Note: GPU and CPU dependencies are mutually exclusive. Do not enable both configurations at the same time.
 
-## Database Setup
-
-This project uses **PostgreSQL** to record image metadata and model prediction outputs.
-
-### Database Configuration
-
-Ensure you have a running PostgreSQL instance.
-
 ## Usage
 
 1. Before starting the application, the required models must be downloaded.
@@ -90,6 +88,7 @@ Ensure you have a running PostgreSQL instance.
    - Classification: Uses a custom fine-tuned **ConvNeXtBase** model.
 
 2. Create an environment file defining your model paths and settings (see [`settings.py`](./camera_traps/settings.py)).
+3. This project uses **PostgreSQL** to record image metadata and model prediction outputs. Ensure you have a running PostgreSQL instance.
 
 ### Option A: Local Setup
 
@@ -114,7 +113,7 @@ docker compose --env-file /path/to/your/local/env up --build
 ```
 
 Note on Model Volumes: By default, Docker Compose mounts ./models to /app/models. If your model files are stored in a 
-different host path, override the MODELS_DIR environment variable:
+different host path, override the `MODELS_DIR` environment variable:
 
 ```bash
 ENV_FILE=/path/to/your/local/env MODELS_DIR=/path/to/your/local/models docker compose --env-file /path/to/your/local/env up --build
