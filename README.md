@@ -13,25 +13,6 @@ by a fine-tuned machine learning model for image classification.
 
 Example of results applied to generic camera traps (used only for inference purposes):
 
-<video src="https://raw.githubusercontent.com/pietro-foini/Camera-traps-wild-life/add-video/assets/badger_fixed.mp4" width="100%" controls muted autoplay loop></video>
-
-<table width="100%" align="center">
-  <tr>
-    <td align="center" width="33%">
-      <b>Badgers</b><br>
-      <video src="https://raw.githubusercontent.com/pietro-foini/Camera-traps-wild-life/main/assets/badger_fixed.mp4" width="100%" controls muted autoplay loop></video>
-    </td>
-    <td align="center" width="33%">
-      <b>Squirrel & Bird</b><br>
-      <video src="https://raw.githubusercontent.com/pietro-foini/Camera-traps-wild-life/main/assets/squirrel_fixed.mp4" width="100%" controls muted autoplay loop></video>
-    </td>
-    <td align="center" width="33%">
-      <b>Boars</b><br>
-      <video src="https://raw.githubusercontent.com/pietro-foini/Camera-traps-wild-life/main/assets/boar_fixed.mp4" width="100%" controls muted autoplay loop></video>
-    </td>
-  </tr>
-</table>
-
 Using Grad-CAM, we achieve model explainability to observe where the model focuses to reach its conclusions:
 
 <p align="center">
