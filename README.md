@@ -17,15 +17,15 @@ Example of results applied to generic camera traps (used only for inference purp
   <tr>
     <td align="center" width="33%">
       <b>Badgers</b><br>
-      <video src="assets/badger.mp4" width="100%" controls muted autoplay loop></video>
+      <video src="assets/squirrel_bird.mp4" width="100%" controls muted autoplay loop></video>
     </td>
     <td align="center" width="33%">
       <b>Squirrel & Bird</b><br>
-      <video src="assets/badger.mp4" width="100%" controls muted autoplay loop></video>
+      <video src="assets/squirrel_bird.mp4" width="100%" controls muted autoplay loop></video>
     </td>
     <td align="center" width="33%">
       <b>Boars</b><br>
-      <video src="assets/badger.mp4" width="100%" controls muted autoplay loop></video>
+      <video src="assets/squirrel_bird.mp4" width="100%" controls muted autoplay loop></video>
     </td>
   </tr>
 </table>
