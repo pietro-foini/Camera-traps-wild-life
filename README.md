@@ -13,6 +13,20 @@ by a fine-tuned machine learning model for image classification.
 
 Example of results applied to generic camera traps (used only for inference purposes):
 
+<table width="100%" align="center">
+  <tr>
+    <td align="center" width="33%">
+      <video src="https://github.com/user-attachments/assets/f903c4a7-a3cb-48b9-8807-4d2c9d73d5d4" width="100%" muted autoplay loop></video>
+    </td>
+    <td align="center" width="33%">
+      <video src="https://github.com/user-attachments/assets/4f40051a-4307-4f2d-987a-77a2167c8220" width="100%" muted autoplay loop></video>
+    </td>
+    <td align="center" width="33%">
+      <video src="https://github.com/user-attachments/assets/7968e2a3-fbf9-4bf2-966d-ab31f4e82518" width="100%" muted autoplay loop></video>
+    </td>
+  </tr>
+</table>
+
 Using Grad-CAM, we achieve model explainability to observe where the model focuses to reach its conclusions:
 
 <p align="center">
