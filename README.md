@@ -110,6 +110,8 @@ different host path, override the `MODELS_DIR` environment variable:
 ENV_FILE=/path/to/your/local/env MODELS_DIR=/path/to/your/local/models docker compose --env-file /path/to/your/local/env up --build
 ```
 
+The app will be available at http://localhost:8000.
+
 -----
 
 ## Model
