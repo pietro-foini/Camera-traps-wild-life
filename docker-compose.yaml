@@ -25,14 +25,11 @@ services:
     restart: always
     ports:
       - "8000:8000"
-      - "8501:8501"
     env_file:
-      # Configurable through environment variable
       - ${ENV_FILE:-.env}
     environment:
       - DB_HOST=postgres_db
     volumes:
-      # Configurable through environment variable
       - ${MODELS_DIR:-./models}:/app/models
     depends_on:
       postgres_db:
