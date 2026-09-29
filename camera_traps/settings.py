@@ -19,8 +19,6 @@ class Settings(BaseSettings):
     # Models for detection and classification.
     CLASSIFIER_MODEL_PATH: str
     """path to the model used for image classification"""
-    CLASSIFIER_CLASSES_PATH: str
-    """path to json file containing class names"""
     DETECTOR_MODEL_PATH: str
     """path to the model used for object detection"""
 
@@ -36,4 +34,4 @@ class Settings(BaseSettings):
     """threshold for keeping detected objects"""
 
 
-S = Settings()  # type: ignore[call-arg]
+S = Settings()  # type: ignore
