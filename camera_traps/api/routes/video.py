@@ -46,9 +46,8 @@ def predict_video(request: Request, file: UploadFile = File(...)):
             context={
                 "filename": file.filename,
                 "has_detections": False,
-                "video_b64": None,
+                "video_b64": "data:video/mp4;base64," + base64.b64encode(video_bytes).decode("utf-8"),
                 "summary": [],
-                "total_frames": None,
             },
         )
 
@@ -87,6 +86,5 @@ def predict_video(request: Request, file: UploadFile = File(...)):
             "has_detections": True,
             "video_b64": "data:video/mp4;base64," + base64.b64encode(video_bytes_output).decode("utf-8"),
             "summary": [{"tracker_id": tid, "label": label} for tid, label in sorted(seen_trackers.items())],
-            "total_frames": 0,  # TODO
         },
     )
