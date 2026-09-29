@@ -5,6 +5,7 @@ from typing import Any
 import numpy as np
 from ultralytics import YOLO
 
+from camera_traps.data import DetectorClasses
 from camera_traps.models.domain import Predictor
 from camera_traps.schemas.base import BoundingBox, Detection
 
@@ -14,6 +15,8 @@ class PTImageDetector(Predictor):
 
     def __init__(self) -> None:
         super().__init__()
+
+        self._class_names = tuple(DetectorClasses)
 
     def load(self, artifact_uri: str) -> None:
         """Load model."""
@@ -45,7 +48,7 @@ class PTImageDetector(Predictor):
         return [
             Detection(
                 class_id=int(box.cls[0]),
-                class_name=self._model.names[int(box.cls[0])],
+                class_name=self._class_names[int(box.cls[0])],
                 box=BoundingBox(
                     xmin=float(box.xyxy[0][0]),
                     ymin=float(box.xyxy[0][1]),

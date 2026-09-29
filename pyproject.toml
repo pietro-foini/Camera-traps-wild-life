@@ -13,7 +13,6 @@ uvicorn = "0.52.4"
 fastapi = "0.141.1"
 python-multipart = "0.0.32"
 # Data Processing & Config
-pandas = "3.0.5"
 numpy = "2.4.6"
 pydantic = "2.13.5"
 pydantic-settings = "2.8.1"

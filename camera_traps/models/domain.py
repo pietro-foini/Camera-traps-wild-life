@@ -10,6 +10,7 @@ class Predictor(ABC):
     def __init__(self) -> None:
         """Initialize predictor class."""
         self._model: Any = None
+        self._class_names = None
 
     @abstractmethod
     def load(self, artifact_uri: str) -> None:

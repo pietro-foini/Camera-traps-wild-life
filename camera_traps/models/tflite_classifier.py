@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 from ai_edge_litert.interpreter import Interpreter
 
+from camera_traps.data import ClassifierClasses
 from camera_traps.models.domain import Predictor
 from camera_traps.schemas.base import Classification
 
@@ -13,11 +14,11 @@ from camera_traps.schemas.base import Classification
 class TFLiteImageClassifier(Predictor):
     """TFLite Image Classifier."""
 
-    def __init__(self, img_size: tuple[int, int], class_names: list[str]) -> None:
+    def __init__(self, img_size: tuple[int, int]) -> None:
         super().__init__()
 
         self.img_size = img_size
-        self.class_names = class_names
+        self._class_names = tuple(ClassifierClasses)
         self._input_details = None
         self._output_details = None
 
@@ -56,7 +57,7 @@ class TFLiteImageClassifier(Predictor):
         return [
             Classification(
                 class_id=int(idx),
-                class_name=self.class_names[int(idx)],
+                class_name=self._class_names[int(idx)],
                 confidence=results[idx],
             )
             for idx in np.argsort(results)[-top:][::-1]

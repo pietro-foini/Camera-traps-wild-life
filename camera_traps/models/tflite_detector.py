@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 from ai_edge_litert.interpreter import Interpreter
 
+from camera_traps.data import DetectorClasses
 from camera_traps.models.domain import Predictor
 from camera_traps.schemas.base import BoundingBox, Detection
 
@@ -13,11 +14,11 @@ from camera_traps.schemas.base import BoundingBox, Detection
 class TFLiteImageDetector(Predictor):
     """TFLite Image Detector."""
 
-    def __init__(self, img_size: tuple[int, int], class_names: list[str]) -> None:
+    def __init__(self, img_size: tuple[int, int]) -> None:
         super().__init__()
 
         self.img_size = img_size
-        self.class_names = class_names
+        self._class_names = tuple(DetectorClasses)
         self._input_details = None
         self._output_details = None
 
@@ -89,7 +90,7 @@ class TFLiteImageDetector(Predictor):
         return [
             Detection(
                 class_id=int(filtered_class_ids[i]),
-                class_name=self.class_names[int(filtered_class_ids[i])],
+                class_name=self._class_names[int(filtered_class_ids[i])],
                 box=BoundingBox(
                     xmin=float(boxes_xyxy[i][0]),
                     ymin=float(boxes_xyxy[i][1]),

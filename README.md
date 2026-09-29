@@ -2,7 +2,6 @@
 
 [![GitHub Release](https://img.shields.io/github/v/tag/pietro-foini/camera-traps-wild-life?label=version)](https://github.com/pietro-foini/camera-traps-wild-life/releases)
 
-
 Hello there! 😀
 
 This project was born from the idea of applying such algorithms to camera traps located on my family’s property in a 
@@ -82,6 +81,7 @@ poetry install --extras cpu
 ### Local Setup
 
 1. Before starting the application, download the required pre-trained model weights from the [GitHub Releases](https://github.com/pietro-foini/Camera-traps-wild-life/releases) page of this repository:
+   
    - **Object Detection:** MegaDetector v1000 model weights.
    - **Classification:** Fine-tuned ConvNeXtBase model weights.
 
@@ -90,6 +90,7 @@ poetry install --extras cpu
 3. Ensure a **PostgreSQL** database instance is running to record image metadata and model predictions.
 
 4. Start the application server:
+
    ```bash
    uvicorn camera_traps.main:app --env-file /path/to/your/local/env --reload
    ```
@@ -113,10 +114,11 @@ ENV_FILE=/path/to/your/local/env MODELS_DIR=/path/to/your/local/models docker co
 
 ## Model
 
-The inference pipeline consists of two stages:
+The inference pipeline consists of three stages:
 
-- Detection: `MegaDetector` is employed to detect animals, humans, and vehicles in camera trap images, filtering out empty frames or background noise.
-- Classification: Detected cropped regions are processed by a fine-tuned `ConvNeXtBase` model trained to identify specific wildlife species.
+- **Object Detection:**: `MegaDetector` is employed to detect animals, humans, and vehicles in camera trap images, filtering out empty frames or background noise.
+- **Classification:** Detected cropped regions are processed by a fine-tuned `ConvNeXtBase` model trained to identify specific wildlife species.
+- **Tracking:** Uses a `SORTTracker` to maintain object identities across video frames and applies label smoothing to stabilize predictions along tracked trajectories.
 
 Training and fine-tuning were executed on an NVIDIA GeForce RTX 5060 Laptop GPU.
 

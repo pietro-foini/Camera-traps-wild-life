@@ -10,13 +10,13 @@ from fastapi.templating import Jinja2Templates
 from camera_traps.db.models import ImageInputModel, ImageOutputModel
 from camera_traps.schemas.base import ImageClassificationResponse
 
-router = APIRouter()
+image_router = APIRouter()
 
 templates = Jinja2Templates(directory=str(Path(__file__).resolve().parent.parent.parent / "templates"))
 
 
-@router.post(path="/predict-image", response_class=HTMLResponse)
-async def predict_image(request: Request, file: UploadFile = File(...)):
+@image_router.post(path="/predict-image", response_class=HTMLResponse)
+def predict_image(request: Request, file: UploadFile = File(...)):
 
     if not file.filename or not file.content_type or not file.content_type.startswith("image/"):
         return HTMLResponse(content="Uploaded file is not a valid image.", status_code=400)
@@ -25,11 +25,11 @@ async def predict_image(request: Request, file: UploadFile = File(...)):
     image_record = ImageInputModel(filename=file.filename)
     saved_image = request.app.state.db.add_record(image_record)
 
-    # Open image.
+    # Read image.
     try:
-        img_bytes = await file.read()
+        img_bytes = file.file.read()
     finally:
-        await file.close()
+        file.file.close()
 
     img_array = cv2.imdecode(np.frombuffer(img_bytes, np.uint8), cv2.IMREAD_COLOR)
 
@@ -56,7 +56,7 @@ async def predict_image(request: Request, file: UploadFile = File(...)):
         request=request,
         context={
             "response": response,
-            "image_b64": base64.b64encode(img_bytes).decode("utf-8"),
+            "image_b64": base64.b64encode(img_bytes).decode("utf-8"),  # type: ignore
             "mime_type": file.content_type,
         },
     )

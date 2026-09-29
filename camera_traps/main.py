@@ -1,11 +1,11 @@
-import json
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
+from trackers import SORTTracker
 
-from camera_traps.api.router import api_router
+from camera_traps.api.routes import home_router, image_router, video_router
 from camera_traps.db.postgres import PostgresHandler
 from camera_traps.settings import S
 
@@ -27,21 +27,20 @@ async def lifespan(app: FastAPI):
     db.init_db()
     app.state.db = db
 
-    with open(S.CLASSIFIER_CLASSES_PATH, "r") as f:
-        labels = json.load(f)
-    class_names = [v for k, v in labels.items()]
+    # Tracker initialization.
+    tracker = SORTTracker()
 
     # Dynamic Classifier Initialization.
     if Path(S.CLASSIFIER_MODEL_PATH).suffix == ".keras":
         from camera_traps.models.tf_classifier import TFImageClassifier
 
-        classifier = TFImageClassifier(img_size=S.CLASSIFIER_IMAGE_SIZE, class_names=class_names)
+        classifier = TFImageClassifier(img_size=S.CLASSIFIER_IMAGE_SIZE)
         classifier.load(S.CLASSIFIER_MODEL_PATH)
 
     elif Path(S.CLASSIFIER_MODEL_PATH).suffix == ".tflite":
         from camera_traps.models.tflite_classifier import TFLiteImageClassifier
 
-        classifier = TFLiteImageClassifier(img_size=S.CLASSIFIER_IMAGE_SIZE, class_names=class_names)
+        classifier = TFLiteImageClassifier(img_size=S.CLASSIFIER_IMAGE_SIZE)
         classifier.load(S.CLASSIFIER_MODEL_PATH)
 
     else:
@@ -57,7 +56,7 @@ async def lifespan(app: FastAPI):
     elif Path(S.DETECTOR_MODEL_PATH).suffix == ".tflite":
         from camera_traps.models.tflite_detector import TFLiteImageDetector
 
-        detector = TFLiteImageDetector(img_size=S.DETECTOR_IMAGE_SIZE, class_names=["animal", "person", "vehicle"])
+        detector = TFLiteImageDetector(img_size=S.DETECTOR_IMAGE_SIZE)
         detector.load(S.DETECTOR_MODEL_PATH)
 
     else:
@@ -66,6 +65,7 @@ async def lifespan(app: FastAPI):
     # Save initialized instances to FastAPI state.
     app.state.classifier = classifier
     app.state.detector = detector
+    app.state.tracker = tracker
 
     yield
 
@@ -75,4 +75,6 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Camera Traps Wildlife", lifespan=lifespan)
 
 # Include API routes.
-app.include_router(api_router)
+app.include_router(home_router, tags=["Home"])
+app.include_router(image_router, tags=["Image"])
+app.include_router(video_router, tags=["Video"])

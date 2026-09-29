@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 import tensorflow as tf
 
+from camera_traps.data import ClassifierClasses
 from camera_traps.models.domain import Predictor
 from camera_traps.schemas.base import Classification
 
@@ -13,11 +14,11 @@ from camera_traps.schemas.base import Classification
 class TFImageClassifier(Predictor):
     """TensorFlow Image Classifier."""
 
-    def __init__(self, img_size: tuple[int, int], class_names: list[str]) -> None:
+    def __init__(self, img_size: tuple[int, int]) -> None:
         super().__init__()
 
+        self._class_names = tuple(ClassifierClasses)
         self.img_size = img_size
-        self.class_names = class_names
 
     def load(self, artifact_uri: str) -> None:
         """Load model."""
@@ -53,7 +54,7 @@ class TFImageClassifier(Predictor):
         return [
             Classification(
                 class_id=int(idx),
-                class_name=self.class_names[int(idx)],
+                class_name=self._class_names[int(idx)],
                 confidence=results[idx],
             )
             for idx in np.argsort(results)[-top:][::-1]
