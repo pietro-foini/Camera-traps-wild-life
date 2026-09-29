@@ -1831,7 +1831,6 @@ files = [
     {file = "jinja2-3.1.6-py3-none-any.whl", hash = "sha256:85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67"},
     {file = "jinja2-3.1.6.tar.gz", hash = "sha256:0137fb05990d35f1275a587e9aee6d56da821fc83491a0fb838183be43f66d6d"},
 ]
-markers = {main = "extra == \"gpu\""}
 
 [package.dependencies]
 MarkupSafe = ">=2.0"
@@ -2628,7 +2627,6 @@ files = [
     {file = "markupsafe-3.0.3-cp39-cp39-win_arm64.whl", hash = "sha256:38664109c14ffc9e7437e86b4dceb442b0096dfe3541d7864d9cbe1da4cf36c8"},
     {file = "markupsafe-3.0.3.tar.gz", hash = "sha256:722695808f4b6457b320fdc131280796bdceb04ab50fe1795cd540799ebe1698"},
 ]
-markers = {main = "extra == \"gpu\""}
 
 [[package]]
 name = "matplotlib"
@@ -6141,4 +6139,4 @@ gpu = ["tensorflow", "torch", "torchvision", "ultralytics"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.13"
-content-hash = "9166fea48603824e85824da5a048ce72ad945800b8fa8767c94dc7f5d0cedd27"
+content-hash = "f58d4d4c140a40e5a979f37ca97ea63cca452b3241c5a48a2198e0172efc7832"
