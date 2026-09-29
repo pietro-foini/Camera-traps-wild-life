@@ -6139,4 +6139,4 @@ gpu = ["tensorflow", "torch", "torchvision", "ultralytics"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.13"
-content-hash = "f58d4d4c140a40e5a979f37ca97ea63cca452b3241c5a48a2198e0172efc7832"
+content-hash = "cc1c4c6c749b7ea3fb24993a19f651f07993774e8d83762f012a7c754d55e91c"

@@ -32,13 +32,13 @@ async def lifespan(app: FastAPI):
 
     # Dynamic Classifier Initialization.
     if Path(S.CLASSIFIER_MODEL_PATH).suffix == ".keras":
-        from camera_traps.models.tf_classifier import TFImageClassifier
+        from camera_traps.models.classification.tensorflow import TFImageClassifier
 
         classifier = TFImageClassifier(img_size=S.CLASSIFIER_IMAGE_SIZE)
         classifier.load(S.CLASSIFIER_MODEL_PATH)
 
     elif Path(S.CLASSIFIER_MODEL_PATH).suffix == ".tflite":
-        from camera_traps.models.tflite_classifier import TFLiteImageClassifier
+        from camera_traps.models.classification.tflite import TFLiteImageClassifier
 
         classifier = TFLiteImageClassifier(img_size=S.CLASSIFIER_IMAGE_SIZE)
         classifier.load(S.CLASSIFIER_MODEL_PATH)
@@ -48,13 +48,13 @@ async def lifespan(app: FastAPI):
 
     # Dynamic Detector Initialization.
     if Path(S.DETECTOR_MODEL_PATH).suffix == ".pt":
-        from camera_traps.models.pt_detector import PTImageDetector
+        from camera_traps.models.detection.pytorch import PTImageDetector
 
         detector = PTImageDetector()
         detector.load(S.DETECTOR_MODEL_PATH)
 
     elif Path(S.DETECTOR_MODEL_PATH).suffix == ".tflite":
-        from camera_traps.models.tflite_detector import TFLiteImageDetector
+        from camera_traps.models.detection.tflite import TFLiteImageDetector
 
         detector = TFLiteImageDetector(img_size=S.DETECTOR_IMAGE_SIZE)
         detector.load(S.DETECTOR_MODEL_PATH)

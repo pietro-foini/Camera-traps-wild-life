@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Camera Traps — Wildlife AI Detector</title>
 
-  <!-- HTMX library -->
   <script src="https://unpkg.com/htmx.org@1.9.12"></script>
-
-  <!-- Modern clean typography & Lucide icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -46,7 +43,6 @@
       max-width: 900px;
     }
 
-    /* Header styling */
     header {
       text-align: center;
       margin-bottom: 2rem;
@@ -83,7 +79,6 @@
       font-size: 0.95rem;
     }
 
-    /* Segmented Tab Switcher */
     .tab-nav {
       display: flex;
       background: rgba(15, 23, 42, 0.6);
@@ -117,7 +112,6 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
-    /* Card Panels */
     .card {
       background: var(--card-bg);
       backdrop-filter: blur(14px);
@@ -128,7 +122,6 @@
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
     }
 
-    /* Modern File Upload Dropzone */
     .dropzone {
       position: relative;
       border: 2px dashed rgba(255, 255, 255, 0.15);
@@ -179,7 +172,6 @@
       display: none;
     }
 
-    /* Submit Button */
     .submit-btn {
       width: 100%;
       margin-top: 1.25rem;
@@ -204,7 +196,6 @@
       transform: translateY(-1px);
     }
 
-    /* HTMX Indicator / Spinner */
     .htmx-indicator {
       display: none;
       margin-top: 1.5rem;
@@ -234,22 +225,33 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+
+    button:disabled,
+    input:disabled {
+      opacity: 0.5;
+      cursor: not-allowed !important;
+      pointer-events: none;
+    }
+
+    .dropzone:has(input:disabled) {
+      opacity: 0.5;
+      pointer-events: none;
+      border-color: rgba(255, 255, 255, 0.08);
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- Main Header -->
     <header>
       <div class="badge-tag">
         <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
         AI Wildlife Vision
       </div>
-      <h1>Camera Traps Studio</h1>
+      <h1>Camera Traps Wildlife</h1>
       <p class="subtitle">Identify species, monitor patterns, and inspect footage with deep neural networks.</p>
     </header>
 
-    <!-- Navigation Switcher -->
     <div class="tab-nav">
       <button class="tab-btn active" id="btn-image" onclick="switchMode('image')">
         <i data-lucide="image" style="width: 18px; height: 18px;"></i>
@@ -257,16 +259,16 @@
       </button>
       <button class="tab-btn" id="btn-video" onclick="switchMode('video')">
         <i data-lucide="video" style="width: 18px; height: 18px;"></i>
-        Video Detection & Tracking
+        Video Detection
       </button>
     </div>
 
-    <!-- Image Mode Section -->
     <div id="image-section">
       <div class="card">
         <form hx-post="/predict-image"
               hx-target="#image-result"
               hx-indicator="#image-spinner"
+              hx-disabled-elt="#image-file-input, #image-submit-btn"
               enctype="multipart/form-data">
 
           <div class="dropzone">
@@ -281,29 +283,27 @@
             <div id="image-label" class="selected-filename"></div>
           </div>
 
-          <button type="submit" class="submit-btn">
+          <button type="submit" id="image-submit-btn" class="submit-btn">
             <i data-lucide="cpu" style="width: 18px; height: 18px;"></i>
             Run Classification
           </button>
         </form>
 
-        <!-- Loading Spinner -->
         <div id="image-spinner" class="htmx-indicator">
           <div class="loader"></div>
           <p style="font-size: 0.9rem; color: var(--text-muted);">Processing image and predicting fauna classes...</p>
         </div>
 
-        <!-- HTMX Target Container -->
         <div id="image-result" style="margin-top: 1.5rem;"></div>
       </div>
     </div>
 
-    <!-- Video Mode Section -->
     <div id="video-section" style="display: none;">
       <div class="card">
         <form hx-post="/predict-video"
               hx-target="#video-result"
               hx-indicator="#video-spinner"
+              hx-disabled-elt="#video-file-input, #video-submit-btn"
               enctype="multipart/form-data">
 
           <div class="dropzone">
@@ -318,13 +318,12 @@
             <div id="video-label" class="selected-filename"></div>
           </div>
 
-          <button type="submit" class="submit-btn">
+          <button type="submit" id="video-submit-btn" class="submit-btn">
             <i data-lucide="play" style="width: 18px; height: 18px;"></i>
             Process Video
           </button>
         </form>
 
-        <!-- Loading Spinner -->
         <div id="video-spinner" class="htmx-indicator">
           <div class="loader"></div>
           <p style="font-size: 0.9rem; color: var(--text-muted);">Annotating and tracking video (may take a couple of minutes)...</p>
@@ -336,10 +335,8 @@
   </div>
 
   <script>
-    // Initialize feather icons
     lucide.createIcons();
 
-    // Tab switcher between Image and Video analysis modes
     function switchMode(mode) {
       const isImage = mode === 'image';
       document.getElementById('image-section').style.display = isImage ? 'block' : 'none';
@@ -348,7 +345,6 @@
       document.getElementById('btn-video').classList.toggle('active', !isImage);
     }
 
-    // Display selected file name inside the upload box
     function handleFileSelect(input, labelId) {
       const label = document.getElementById(labelId);
       if (input.files && input.files[0]) {
