@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from unittest.mock import ANY
 
 from tests.config import *
-from camera_traps.schemas.base import Classification
+from camera_traps.models.models import Classification
 
 
 def create_dummy_image_bytes():

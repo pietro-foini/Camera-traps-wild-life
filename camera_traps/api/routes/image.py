@@ -8,7 +8,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from camera_traps.db.models import ImageInputModel, ImageOutputModel
-from camera_traps.schemas.base import ImageClassificationResponse
+from camera_traps.models.models import ImageClassificationResponse
 
 image_router = APIRouter()
 

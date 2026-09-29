@@ -7,7 +7,7 @@ from ultralytics import YOLO
 
 from camera_traps.data import DetectorClasses
 from camera_traps.models.domain import Predictor
-from camera_traps.schemas.base import BoundingBox, Detection
+from camera_traps.models.models import BoundingBox, Detection
 
 
 class PTImageDetector(Predictor):

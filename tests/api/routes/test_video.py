@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from trackers import SORTTracker
 
 from tests.config import *
-from camera_traps.schemas.base import Classification, Detection, BoundingBox
+from camera_traps.models.models import Classification, Detection, BoundingBox
 
 
 def create_dummy_video_bytes():
