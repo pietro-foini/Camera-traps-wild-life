@@ -35,12 +35,12 @@ class Classification(BaseModel):
 class ImageClassificationResponse(BaseModel):
     """Response payload containing image classification predictions."""
 
-    filename: str | None
-    predictions: list[Classification]
+    filename: str
+    predictions: list[Classification] = Field(default_factory=list)
 
 
 class VideoDetectionResponse(BaseModel):
     """Response payload containing object detections for a video."""
 
-    filename: str | None
-    predictions: list[Detection]
+    filename: str
+    predictions: list[Detection] = Field(default_factory=list)

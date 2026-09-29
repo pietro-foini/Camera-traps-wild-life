@@ -5,8 +5,8 @@ from pathlib import Path
 
 from fastapi import FastAPI
 
-from camera_traps.backend.api.routes import image_router, video_router
-from camera_traps.backend.db.postgres import PostgresHandler
+from camera_traps.api.router import api_router
+from camera_traps.db.postgres import PostgresHandler
 from camera_traps.settings import S
 
 logging.basicConfig(level=logging.INFO)
@@ -33,13 +33,13 @@ async def lifespan(app: FastAPI):
 
     # Dynamic Classifier Initialization.
     if Path(S.CLASSIFIER_MODEL_PATH).suffix == ".keras":
-        from camera_traps.backend.models.tf_classifier import TFImageClassifier
+        from camera_traps.models.tf_classifier import TFImageClassifier
 
         classifier = TFImageClassifier(img_size=S.CLASSIFIER_IMAGE_SIZE, class_names=class_names)
         classifier.load(S.CLASSIFIER_MODEL_PATH)
 
     elif Path(S.CLASSIFIER_MODEL_PATH).suffix == ".tflite":
-        from camera_traps.backend.models.tflite_classifier import TFLiteImageClassifier
+        from camera_traps.models.tflite_classifier import TFLiteImageClassifier
 
         classifier = TFLiteImageClassifier(img_size=S.CLASSIFIER_IMAGE_SIZE, class_names=class_names)
         classifier.load(S.CLASSIFIER_MODEL_PATH)
@@ -49,13 +49,13 @@ async def lifespan(app: FastAPI):
 
     # Dynamic Detector Initialization.
     if Path(S.DETECTOR_MODEL_PATH).suffix == ".pt":
-        from camera_traps.backend.models.pt_detector import PTImageDetector
+        from camera_traps.models.pt_detector import PTImageDetector
 
         detector = PTImageDetector()
         detector.load(S.DETECTOR_MODEL_PATH)
 
     elif Path(S.DETECTOR_MODEL_PATH).suffix == ".tflite":
-        from camera_traps.backend.models.tflite_detector import TFLiteImageDetector
+        from camera_traps.models.tflite_detector import TFLiteImageDetector
 
         detector = TFLiteImageDetector(img_size=S.DETECTOR_IMAGE_SIZE, class_names=["animal", "person", "vehicle"])
         detector.load(S.DETECTOR_MODEL_PATH)
@@ -72,8 +72,7 @@ async def lifespan(app: FastAPI):
     logging.info("Shutting down server and releasing resources...")
 
 
-app = FastAPI(title="camera-traps-wildlife", lifespan=lifespan)
+app = FastAPI(title="Camera Traps Wildlife", lifespan=lifespan)
 
 # Include API routes.
-app.include_router(image_router)
-app.include_router(video_router)
+app.include_router(api_router)

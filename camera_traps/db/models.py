@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from camera_traps.backend.db.base import Base
+from camera_traps.db.base import Base
 
 
 class ImageInputModel(Base):

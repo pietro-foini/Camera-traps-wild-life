@@ -4,8 +4,8 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from camera_traps.backend.db.base import Base
-from camera_traps.backend.db.domain import DBInterface
+from camera_traps.db.base import Base
+from camera_traps.db.domain import DBInterface
 
 ModelType = TypeVar("ModelType", bound=Base)
 

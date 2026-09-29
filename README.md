@@ -1,6 +1,5 @@
 # Camera-traps-wild-life
 
-[![Unit Tests](https://github.com/pietro-foini/camera-traps-wild-life/actions/workflows/tests.yml/badge.svg)](https://github.com/pietro-foini/camera-traps-wild-life/actions)
 [![GitHub Release](https://img.shields.io/github/v/tag/pietro-foini/camera-traps-wild-life?label=version)](https://github.com/pietro-foini/camera-traps-wild-life/releases)
 
 
@@ -41,16 +40,13 @@ Using Grad-CAM, we achieve model explainability to observe where the model focus
 
 ## Installation
 
-Make sure to create a [virtual env](https://docs.python.org/3/library/venv.html). For which Python version to install please refer to the version allowed 
-inside the [`pyproject.toml`](./pyproject.toml).
-
-Now activate it, cd into the project repo and run the following command:
-
-```bash
-pip install -r requirements.txt
-```
+This project requires Python 3.11 or 3.12 and relies on Poetry for dependency management. The project is structured to 
+support three distinct installation modes depending on your hardware and requirements.
 
 ### Lite Setup
+
+This setup is designed for edge deployments or lightweight servers where inference is handled exclusively via TensorFlow 
+Lite models, resulting in a significantly smaller storage footprint.
 
 ```bash
 poetry install --only main
@@ -58,13 +54,16 @@ poetry install --only main
 
 ### GPU Setup
 
+This setup is designed for development, training, or production inference on machines equipped with NVIDIA GPUs.
+
 ```bash
 poetry install --extras gpu
 ```
 
 ### CPU Setup
 
-For a CPU-only setup, the GPU dependencies must be disabled in `pyproject.toml` and uncomment the CPU dependencies.
+Because pip and Poetry do not natively allow conditional hardware-based resolution in a single configuration block, 
+the CPU and GPU dependencies are mutually exclusive. You must manually modify the `pyproject.toml` file to switch from GPU to CPU.
 
 After changing `pyproject.toml`, regenerate the lock file:
 
@@ -78,35 +77,26 @@ Finally, install the CPU dependencies with:
 poetry install --extras cpu
 ```
 
-Note: GPU and CPU dependencies are mutually exclusive. Do not enable both configurations at the same time.
-
 ## Usage
 
-1. Before starting the application, the required models must be downloaded.
+### Local Setup
 
-   - Object Detection: This project uses [**MegaDetector** v1000](https://github.com/agentmorris/MegaDetector/release), loaded directly from the official PyTorch releases provided by the creators.
-   - Classification: Uses a custom fine-tuned **ConvNeXtBase** model.
+1. Before starting the application, download the required pre-trained model weights from the [GitHub Releases](https://github.com/pietro-foini/Camera-traps-wild-life/releases) page of this repository:
+   - **Object Detection:** MegaDetector v1000 model weights.
+   - **Classification:** Fine-tuned ConvNeXtBase model weights.
 
-2. Create an environment file defining your model paths and settings (see [`settings.py`](./camera_traps/settings.py)).
-3. This project uses **PostgreSQL** to record image metadata and model prediction outputs. Ensure you have a running PostgreSQL instance.
+2. Create an environment file defining your local model file paths and application settings (refer to [`settings.py`](./camera_traps/settings.py) for reference).
 
-### Option A: Local Setup
+3. Ensure a **PostgreSQL** database instance is running to record image metadata and model predictions.
 
-- Backend (FastAPI):
-
-    ```bash
-    uvicorn camera_traps.backend.main:app --env-file /path/to/your/local/env --reload
-    ```
-
-- Frontend (Streamlit)::
-
+4. Start the application server:
    ```bash
-   streamlit run camera_traps/frontend/main.py
+   uvicorn camera_traps.main:app --env-file /path/to/your/local/env --reload
    ```
   
-### Option B: Docker Setup
+### Docker Setup
 
-Run the entire pipeline (PostgreSQL database, FastAPI backend, and Streamlit frontend) with a single command:
+Run the entire pipeline with a single command:
 
 ```bash
 docker compose --env-file /path/to/your/local/env up --build
@@ -118,11 +108,6 @@ different host path, override the `MODELS_DIR` environment variable:
 ```bash
 ENV_FILE=/path/to/your/local/env MODELS_DIR=/path/to/your/local/models docker compose --env-file /path/to/your/local/env up --build
 ```
-
-Once running, access:
-
-- FastAPI Backend: http://localhost:8000
-- Streamlit Frontend: http://localhost:8501
 
 -----
 
