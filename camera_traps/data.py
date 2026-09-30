@@ -1,14 +1,6 @@
 from enum import StrEnum
 
 
-class DetectorClasses(StrEnum):
-    """Enum for wildlife detector classes"""
-
-    animal = "animal"
-    person = "person"
-    vehicle = "vehicle"
-
-
 class ClassifierClasses(StrEnum):
     """Enum for wildlife classifier classes"""
 

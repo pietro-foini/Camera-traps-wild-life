@@ -51,45 +51,17 @@ Lite models, resulting in a significantly smaller storage footprint.
 poetry install --only main
 ```
 
-### GPU Setup
-
-This setup is designed for development, training, or production inference on machines equipped with NVIDIA GPUs.
-
-```bash
-poetry install --extras gpu
-```
-
-### CPU Setup
-
-Because pip and Poetry do not natively allow conditional hardware-based resolution in a single configuration block, 
-the CPU and GPU dependencies are mutually exclusive. You must manually modify the `pyproject.toml` file to switch from GPU to CPU.
-
-After changing `pyproject.toml`, regenerate the lock file:
-
-```bash
-poetry lock
-```
-
-Finally, install the CPU dependencies with:
-
-```bash
-poetry install --extras cpu
-```
-
 ## Usage
 
 ### Local Setup
 
 1. Before starting the application, download the required pre-trained model weights from the [GitHub Releases](https://github.com/pietro-foini/Camera-traps-wild-life/releases) page of this repository:
-   
-   - **Object Detection:** MegaDetector v1000 model weights.
+
    - **Classification:** Fine-tuned ConvNeXtBase model weights.
 
 2. Create an environment file defining your local model file paths and application settings (refer to [`settings.py`](./camera_traps/settings.py) for reference).
 
-3. Ensure a **PostgreSQL** database instance is running to record image metadata and model predictions.
-
-4. Start the application server:
+3. Start the application server:
 
    ```bash
    uvicorn camera_traps.main:app --env-file /path/to/your/local/env --reload
@@ -97,17 +69,18 @@ poetry install --extras cpu
   
 ### Docker Setup
 
-Run the entire pipeline with a single command:
+Build and run the application using Docker.
+
+First, build the Docker image:
 
 ```bash
-docker compose --env-file /path/to/your/local/env up --build
+docker build -t app-camera-traps-wildlife .
 ```
 
-Note on Model Volumes: By default, Docker Compose mounts ./models to /app/models. If your model files are stored in a 
-different host path, override the `MODELS_DIR` environment variable:
+Then run the container:
 
 ```bash
-ENV_FILE=/path/to/your/local/env MODELS_DIR=/path/to/your/local/models docker compose --env-file /path/to/your/local/env up --build
+docker run --rm -p 8000:8000 app-camera-traps-wildlife
 ```
 
 The app will be available at http://localhost:8000.
@@ -118,9 +91,7 @@ The app will be available at http://localhost:8000.
 
 The inference pipeline consists of three stages:
 
-- **Object Detection:**: `MegaDetector` is employed to detect animals, humans, and vehicles in camera trap images, filtering out empty frames or background noise.
 - **Classification:** Detected cropped regions are processed by a fine-tuned `ConvNeXtBase` model trained to identify specific wildlife species.
-- **Tracking:** Uses a `SORTTracker` to maintain object identities across video frames and applies label smoothing to stabilize predictions along tracked trajectories.
 
 Training and fine-tuning were executed on an NVIDIA GeForce RTX 5060 Laptop GPU.
 
