@@ -18,13 +18,8 @@ numpy = "2.4.6"
 pydantic = "2.13.5"
 pydantic-settings = "2.8.1"
 # Computer Vision & Models
-trackers = "2.6.0"
-supervision = "0.30.2"
-av = "18.1.0"
+opencv-python-headless = "5.0.0.93"
 ai-edge-litert = "2.2.0"
-# Database & ORM
-SQLAlchemy = "2.0.52"
-psycopg2-binary = "2.9.13"
 # GPU support
 ultralytics = { version = "8.4.143", optional = true }
 torch = { version = "2.11.0", source = "pytorch-cu128", optional = true }

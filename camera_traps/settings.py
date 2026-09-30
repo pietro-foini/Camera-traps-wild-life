@@ -4,22 +4,10 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Global Settings"""
 
-    # Postgres.
-    DB_USER: str
-    """user"""
-    DB_PASSWORD: str
-    """passw"""
-    DB_HOST: str
-    """database host"""
-    DB_PORT: str
-    """database port"""
-    DB_NAME: str
-    """database name"""
-
     # Models for detection and classification.
     CLASSIFIER_MODEL_PATH: str
     """path to the model used for image classification"""
-    DETECTOR_MODEL_PATH: str
+    DETECTOR_MODEL_PATH: str | None = None
     """path to the model used for object detection"""
 
     CLASSIFIER_IMAGE_SIZE: tuple[int, int] = (224, 224)

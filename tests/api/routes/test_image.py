@@ -34,18 +34,11 @@ def test_predict_image_success():
         Classification(class_id=5, class_name="wolf", confidence=0.01),
     ]
 
-    # Setup DB Mock.
-    mock_db = MagicMock()
-    mock_saved_image = MagicMock()
-    mock_saved_image.id = 123
-    mock_db.add_record.return_value = mock_saved_image
-
     # Application.
     app = FastAPI()
     app.include_router(image_router)
     client = TestClient(app)
     app.state.classifier = mock_predictor
-    app.state.db = mock_db
 
     # Create dummy image.
     image_bytes = create_dummy_image_bytes()
@@ -61,7 +54,6 @@ def test_predict_image_success():
     html_content = response.text
     assert "fox" in html_content
     mock_predictor.predict.assert_called_once_with(ANY, top=5)
-    assert mock_db.add_record.call_count == 6
 
     app.dependency_overrides.clear()
 
@@ -76,7 +68,6 @@ def test_predict_image_invalid_content_type():
     client = TestClient(app)
 
     app.state.classifier = MagicMock()
-    app.state.db = MagicMock()
 
     response = client.post(
         "/predict-image",
@@ -99,7 +90,6 @@ def test_predict_image_corrupt_bytes():
     client = TestClient(app)
 
     app.state.classifier = MagicMock()
-    app.state.db = MagicMock()
 
     response = client.post(
         "/predict-image",

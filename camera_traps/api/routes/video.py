@@ -5,7 +5,6 @@ from fastapi import APIRouter, File, Request, UploadFile
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from camera_traps.db.models import VideoInputModel, VideoOutputModel
 from camera_traps.services.video import annotate, process, smooth
 from camera_traps.settings import S
 
@@ -19,9 +18,6 @@ def predict_video(request: Request, file: UploadFile = File(...)):
 
     if not file.filename or not file.content_type or not file.content_type.startswith("video/"):
         return HTMLResponse(content="Uploaded file is not a valid video.", status_code=400)
-
-    video_record = VideoInputModel(filename=file.filename)
-    saved_video = request.app.state.db.add_record(video_record)
 
     # Read video file.
     try:
@@ -53,21 +49,6 @@ def predict_video(request: Request, file: UploadFile = File(...)):
 
     # Consolidate predictions.
     response = smooth(response=response, threshold=S.CLASSIFIER_THRESHOLD)
-
-    # Store record on database.
-    for pred in response.predictions:
-        detection_record = VideoOutputModel(
-            video_input_id=saved_video.id,
-            frame_id=pred.frame_id,
-            tracker_id=pred.tracking_id,
-            label=pred.class_name,
-            confidence=pred.confidence,
-            x_min=pred.box.xmin,
-            y_min=pred.box.ymin,
-            x_max=pred.box.xmax,
-            y_max=pred.box.ymax,
-        )
-        request.app.state.db.add_record(detection_record)
 
     # Render annotated video.
     video_bytes_output = annotate(video_bytes=video_bytes, response=response)
