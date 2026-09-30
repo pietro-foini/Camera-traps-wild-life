@@ -196,6 +196,67 @@
       transform: translateY(-1px);
     }
 
+    .classes-accordion {
+      margin-top: 1.5rem;
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .classes-accordion summary {
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      list-style: none;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .classes-accordion summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .classes-accordion summary:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .summary-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .classes-accordion[open] .summary-icon {
+      transform: rotate(180deg);
+    }
+
+    .classes-content {
+      padding: 1.25rem;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .class-list-flat {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.75rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .class-list-flat li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .htmx-indicator {
       display: none;
       margin-top: 1.5rem;
@@ -263,6 +324,7 @@
       </button>
     </div>
 
+    <!-- Image Section -->
     <div id="image-section">
       <div class="card">
         <form hx-post="/predict-image"
@@ -289,6 +351,26 @@
           </button>
         </form>
 
+        <details class="classes-accordion">
+          <summary>
+            <span style="display: flex; align-items: center; gap: 8px;">
+              <i data-lucide="list" style="width: 16px; height: 16px;"></i>
+              View Supported Classes
+            </span>
+            <i data-lucide="chevron-down" class="summary-icon" style="width: 16px; height: 16px;"></i>
+          </summary>
+          <div class="classes-content">
+            <ul class="class-list-flat">
+              {% for cls_name in classes %}
+              <li>
+                <i data-lucide="check-circle-2" style="width: 14px; height: 14px; color: var(--accent); flex-shrink: 0;"></i>
+                <span>{{ cls_name }}</span>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </details>
+
         <div id="image-spinner" class="htmx-indicator">
           <div class="loader"></div>
           <p style="font-size: 0.9rem; color: var(--text-muted);">Processing image and predicting fauna classes...</p>
@@ -298,6 +380,7 @@
       </div>
     </div>
 
+    <!-- Video Section -->
     <div id="video-section" style="display: none;">
       <div class="card">
         <form hx-post="/predict-video"
@@ -307,31 +390,54 @@
               enctype="multipart/form-data">
 
           <div class="dropzone">
-            <input type="file" name="file" id="video-file-input" accept="video/mp4,video/avi,video/mov" required onchange="handleFileSelect(this, 'video-label')">
+            <input type="file" name="file" id="video-file-input" accept="video/*" required onchange="handleFileSelect(this, 'video-label')">
             <div class="dropzone-icon">
-              <i data-lucide="film" style="width: 36px; height: 36px;"></i>
+              <i data-lucide="video" style="width: 36px; height: 36px;"></i>
             </div>
             <div class="dropzone-text">
-              <strong>Click to upload video file</strong>
+              <strong>Click to upload or drag & drop video</strong>
               <span>MP4, AVI, MOV supported</span>
             </div>
             <div id="video-label" class="selected-filename"></div>
           </div>
 
+
           <button type="submit" id="video-submit-btn" class="submit-btn">
-            <i data-lucide="play" style="width: 18px; height: 18px;"></i>
-            Process Video
+            <i data-lucide="cpu" style="width: 18px; height: 18px;"></i>
+            Run Detection
           </button>
         </form>
 
+        <details class="classes-accordion">
+          <summary>
+            <span style="display: flex; align-items: center; gap: 8px;">
+              <i data-lucide="list" style="width: 16px; height: 16px;"></i>
+              View Supported Classes
+            </span>
+            <i data-lucide="chevron-down" class="summary-icon" style="width: 16px; height: 16px;"></i>
+          </summary>
+          <div class="classes-content">
+            <ul class="class-list-flat">
+              {% for cls_name in classes %}
+              <li>
+                <i data-lucide="check-circle-2" style="width: 14px; height: 14px; color: var(--accent); flex-shrink: 0;"></i>
+                <span>{{ cls_name }}</span>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </details>
+
+
         <div id="video-spinner" class="htmx-indicator">
           <div class="loader"></div>
-          <p style="font-size: 0.9rem; color: var(--text-muted);">Annotating and tracking video (may take a couple of minutes)...</p>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Analyzing video frames and detecting species...</p>
         </div>
 
         <div id="video-result" style="margin-top: 1.5rem;"></div>
       </div>
     </div>
+
   </div>
 
   <script>
@@ -341,6 +447,7 @@
       const isImage = mode === 'image';
       document.getElementById('image-section').style.display = isImage ? 'block' : 'none';
       document.getElementById('video-section').style.display = isImage ? 'none' : 'block';
+
       document.getElementById('btn-image').classList.toggle('active', isImage);
       document.getElementById('btn-video').classList.toggle('active', !isImage);
     }
