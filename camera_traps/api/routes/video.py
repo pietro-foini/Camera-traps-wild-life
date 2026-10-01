@@ -40,7 +40,7 @@ def predict_video(request: Request, file: UploadFile = File(...)):
     )
 
     if not response.predictions:
-        templates.TemplateResponse(
+        return templates.TemplateResponse(
             name="partials/video_result.html",
             request=request,
             context={
