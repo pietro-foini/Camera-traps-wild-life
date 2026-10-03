@@ -119,7 +119,7 @@ The app will be available at http://localhost:8000.
 
 The inference pipeline consists of three stages:
 
-- **Object Detection:**: `MegaDetector` is employed to detect animals, humans, and vehicles in camera trap images, filtering out empty frames or background noise.
+- **Object Detection:** `MegaDetector` is employed to detect animals, humans, and vehicles in camera trap images, filtering out empty frames or background noise.
 - **Classification:** Detected cropped regions are processed by a fine-tuned `ConvNeXtBase` model trained to identify specific wildlife species.
 - **Tracking:** Uses a `SORTTracker` to maintain object identities across video frames and applies label smoothing to stabilize predictions along tracked trajectories.
 
